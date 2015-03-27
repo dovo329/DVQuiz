@@ -34,13 +34,20 @@
 
 @property (nonatomic) int timeLeft;
 
+@property (nonatomic) NSTimer *questionTimer;
+
 @end
 
 @implementation BNRQuizViewController
 
 - (void)displayScore
 {
-    self.scoreLabel.text = [NSString stringWithFormat:@"%d/%d: %.0f%%", _answeredRight, _answeredTotal, 100*((float)_answeredRight/(float)_answeredTotal) ];
+    if (_answeredTotal != 0)
+    {
+        self.scoreLabel.text = [NSString stringWithFormat:@"%d/%d: %.0f%%", _answeredRight, _answeredTotal, 100*((float)_answeredRight/(float)_answeredTotal) ];
+    } else {
+        self.scoreLabel.text = [NSString stringWithFormat:@"0: 0%%"];
+    }
 }
 
 - (IBAction)answerA:(id)sender
@@ -55,7 +62,14 @@
     }
     
     _answeredTotal++;
-    [self displayScore];
+    [self displayCurrentQuestion];
+    [self.questionTimer invalidate];
+    self.questionTimer = nil;
+    [NSTimer scheduledTimerWithTimeInterval:1.0
+                                     target:self
+                                   selector:@selector(nextQuestion)
+                                   userInfo:nil
+                                    repeats:NO];
 }
 
 - (IBAction)answerB:(id)sender
@@ -70,7 +84,14 @@
     }
     
     self.answeredTotal++;
-    [self displayScore];
+    [self displayCurrentQuestion];
+    [self.questionTimer invalidate];
+    self.questionTimer = nil;
+    [NSTimer scheduledTimerWithTimeInterval:1.0
+                                     target:self
+                                   selector:@selector(nextQuestion)
+                                   userInfo:nil
+                                    repeats:NO];
 }
 
 - (IBAction)answerC:(id)sender
@@ -85,7 +106,14 @@
     }
     
     self.answeredTotal++;
-    [self displayScore];
+    [self displayCurrentQuestion];
+    [self.questionTimer invalidate];
+    self.questionTimer = nil;
+    [NSTimer scheduledTimerWithTimeInterval:1.0
+                                     target:self
+                                   selector:@selector(nextQuestion)
+                                   userInfo:nil
+                                    repeats:NO];
 }
 
 - (IBAction)answerD:(id)sender
@@ -100,19 +128,49 @@
     }
     
     self.answeredTotal++;
-    [self displayScore];
+    [self displayCurrentQuestion];
+    [self.questionTimer invalidate];
+    self.questionTimer = nil;
+    [NSTimer scheduledTimerWithTimeInterval:1.0
+                                     target:self
+                                   selector:@selector(nextQuestion)
+                                   userInfo:nil
+                                    repeats:NO];
 }
 
+- (void)doQuizOver
+{
+    self.questionLabel.text = @"The Quiz is Over!";
+    self.answerALabel.text  = @"Your final score is above";
+    self.answerBLabel.text  = @"";
+    self.answerCLabel.text  = @"";
+    self.answerDLabel.text  = @"";
+    [self displayScore];
+    [self.questionTimer invalidate];
+}
 
-- (IBAction)nextQuestion:(id)sender
+- (void)nextQuestion
 {
     self.statusLabel.text = @"";
     self.currentQuestionIndex++;
     if (self.currentQuestionIndex == [self.quizQuestions count])
     {
         self.currentQuestionIndex = 0;
+        [self doQuizOver];
     }
-    [self displayCurrentQuestion];
+    else
+    {
+        [self displayCurrentQuestion];
+        if (self.questionTimer) {
+            self.questionTimer = nil;
+        }
+        _questionTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                          target:self
+                                                        selector:@selector(timerHandler)
+                                                        userInfo:nil
+                                                         repeats:YES];
+    }
+    _timeLeft=5;
 }
 
 - (void)displayCurrentQuestion
@@ -156,7 +214,6 @@
 
 -(void)timerHandler
 {
-    
     if (_timeLeft > 0)
     {
         self.timerLabel.text = [NSString stringWithFormat:@"%d sec", _timeLeft];
@@ -174,13 +231,7 @@
         _timeLeft--;
         
         self.answeredTotal++;
-        self.statusLabel.text = @"";
-        self.currentQuestionIndex++;
-        if (self.currentQuestionIndex == [self.quizQuestions count])
-        {
-            self.currentQuestionIndex = 0;
-        }
-        [self displayCurrentQuestion];
+        [self nextQuestion];
     }
 }
 
@@ -191,13 +242,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
     if (self) {
-        /*self.questions = @[@"What is the capital of Oregon?",
-                           @"How many light seconds away is the moon from earth?"];
-        self.answersA = @[@"Eugene",
-                          @"1.0"];
-        self.answersB = @[@"Salem",
-                          @"1.1"];*/
-
         _answeredRight = 0;
         _answeredTotal = 0;
         self.quizQuestions = [NSMutableArray array];
@@ -231,14 +275,24 @@
                          correctIndex:3];
         [self.quizQuestions addObject:tempQuestion1];
         
+        tempQuestion1 = nil;
+        tempQuestion1 = [[DVQuizQuestion alloc]
+                         init:@"What, is your favorite color?"
+                         answerA:@"Blue... No, Red!"
+                         answerB:@"Clear"
+                         answerC:@"Fuschia"
+                         answerD:@"Burnt Umber"
+                         correctIndex:2];
+        [self.quizQuestions addObject:tempQuestion1];
+        
         
         //NSLog(@"tempQuestion1: %@\n\n", tempQuestion1);
         //NSLog(@"tempQuestion2: %@\n\n", tempQuestion2);
         
         //NSLog(@"[self.quizQuestions count]=%d", [self.quizQuestions count]);
-        for (int i=0; i<[self.quizQuestions count]; i++) {
+        /*for (int i=0; i<[self.quizQuestions count]; i++) {
             NSLog(@"self.quizQuestions[%d]: %@\n\n", i, self.quizQuestions[i]);
-        }
+        }*/
         
         //NSLog(@"self.quizQuestions[0]: %@\n\n", self.quizQuestions[0]);
         //NSLog(@"self.quizQuestions[1]: %@\n\n", self.quizQuestions[1]);
@@ -268,11 +322,12 @@
         [self.statusLabel sizeToFit];
         
         _timeLeft=5;
-        [NSTimer scheduledTimerWithTimeInterval:1.0
-                                         target:self
-                                       selector:@selector(timerHandler)
-                                       userInfo:nil
-                                        repeats:YES];
+        _questionTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                          target:self
+                                                        selector:@selector(timerHandler)
+                                                        userInfo:nil
+                                                         repeats:YES];
+        
     }
     
     return self;
