@@ -13,6 +13,7 @@
                 <outlet property="questionLabel" destination="tFR-wX-IcB" id="Hjb-xD-2t7"/>
                 <outlet property="scoreLabel" destination="1HN-G2-Jqb" id="fbi-Iw-Fhm"/>
                 <outlet property="statusLabel" destination="dd9-NM-8MB" id="9jr-6l-vPL"/>
+                <outlet property="timerLabel" destination="HJp-OE-6Ck" id="bdc-qk-Ow7"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="yec-Ko-Ic9"/>
             </connections>
         </placeholder>
@@ -28,7 +29,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="wordWrap" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dd9-NM-8MB" userLabel="statusLabel">
-                    <rect key="frame" x="8" y="108" width="158" height="33"/>
+                    <rect key="frame" x="8" y="108" width="132" height="33"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -114,7 +115,13 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1HN-G2-Jqb" userLabel="scoreLabel">
-                    <rect key="frame" x="191" y="109" width="121" height="33"/>
+                    <rect key="frame" x="148" y="111" width="102" height="33"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HJp-OE-6Ck" userLabel="timerLabel">
+                    <rect key="frame" x="258" y="108" width="54" height="36"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
@@ -123,7 +130,7 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="227" y="715"/>
+            <point key="canvasLocation" x="227" y="762"/>
         </view>
     </objects>
 </document>

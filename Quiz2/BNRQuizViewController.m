@@ -30,6 +30,9 @@
 @property (nonatomic, weak) IBOutlet UILabel *answerBLabel;
 @property (nonatomic, weak) IBOutlet UILabel *answerCLabel;
 @property (nonatomic, weak) IBOutlet UILabel *answerDLabel;
+@property (nonatomic, weak) IBOutlet UILabel *timerLabel;
+
+@property (nonatomic) int timeLeft;
 
 @end
 
@@ -45,10 +48,10 @@
     DVQuizQuestion *quizQuestion = self.quizQuestions[_currentQuestionIndex];
     if (quizQuestion.correctIndex==0)
     {
-        self.statusLabel.text = @"Answer A is Correct!";
+        self.statusLabel.text = @"A. Correct!";
         self.answeredRight++;
     } else {
-        self.statusLabel.text = @"Answer A is Wrong!";
+        self.statusLabel.text = @"A. Wrong!";
     }
     
     _answeredTotal++;
@@ -60,10 +63,10 @@
     DVQuizQuestion *quizQuestion = self.quizQuestions[_currentQuestionIndex];
     if (quizQuestion.correctIndex==1)
     {
-        self.statusLabel.text = @"Answer B is Correct!";
+        self.statusLabel.text = @"B. Correct!";
         self.answeredRight++;
     } else {
-        self.statusLabel.text = @"Answer B is Wrong!";
+        self.statusLabel.text = @"B. Wrong!";
     }
     
     self.answeredTotal++;
@@ -75,10 +78,10 @@
     DVQuizQuestion *quizQuestion = self.quizQuestions[_currentQuestionIndex];
     if (quizQuestion.correctIndex==2)
     {
-        self.statusLabel.text = @"Answer C is Correct!";
+        self.statusLabel.text = @"C. Correct!";
         _answeredRight++;
     } else {
-        self.statusLabel.text = @"Answer C is Wrong!";
+        self.statusLabel.text = @"C. Wrong!";
     }
     
     self.answeredTotal++;
@@ -90,10 +93,10 @@
     DVQuizQuestion *quizQuestion = self.quizQuestions[_currentQuestionIndex];
     if (quizQuestion.correctIndex==3)
     {
-        self.statusLabel.text = @"Answer D is Correct!";
+        self.statusLabel.text = @"D. Correct!";
         self.answeredRight++;
     } else {
-        self.statusLabel.text = @"Answer D is Wrong!";
+        self.statusLabel.text = @"D. Wrong!";
     }
     
     self.answeredTotal++;
@@ -147,8 +150,40 @@
     self.statusLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.statusLabel.numberOfLines = 0;
     [self.statusLabel sizeToFit];
-
+    
+    [self displayScore];
 }
+
+-(void)timerHandler
+{
+    
+    if (_timeLeft > 0)
+    {
+        self.timerLabel.text = [NSString stringWithFormat:@"%d sec", _timeLeft];
+        _timeLeft--;
+    }
+    else if (_timeLeft == 0)
+    {
+        self.timerLabel.text = @"Buzz!";
+        _timeLeft--;
+    }
+    else
+    {
+        _timeLeft = 5;
+        self.timerLabel.text = [NSString stringWithFormat:@"%d sec", _timeLeft];
+        _timeLeft--;
+        
+        self.answeredTotal++;
+        self.statusLabel.text = @"";
+        self.currentQuestionIndex++;
+        if (self.currentQuestionIndex == [self.quizQuestions count])
+        {
+            self.currentQuestionIndex = 0;
+        }
+        [self displayCurrentQuestion];
+    }
+}
+
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil
                          bundle:(NSBundle *)nibBundleOrNil
@@ -231,9 +266,17 @@
         self.statusLabel.lineBreakMode = NSLineBreakByWordWrapping;
         self.statusLabel.numberOfLines = 0;
         [self.statusLabel sizeToFit];
+        
+        _timeLeft=5;
+        [NSTimer scheduledTimerWithTimeInterval:1.0
+                                         target:self
+                                       selector:@selector(timerHandler)
+                                       userInfo:nil
+                                        repeats:YES];
     }
     
     return self;
 }
+
 
 @end
