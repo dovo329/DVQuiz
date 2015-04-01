@@ -10,6 +10,7 @@
 #import "BNRQuizViewController.h"
 #import "QuizOverViewController.h"
 #import "DVQuizQuestion.h"
+#import "QandADataBase.h"
 
 @interface AppDelegate ()
 
@@ -20,6 +21,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    NSLog(@"before database print");
+    NSArray *QandAFromDataBase = [QandADataBase database].DVQuizQuestionInfos;
+    for (QandADataBase *info in QandAFromDataBase) {
+        NSLog(@"%@", info);
+    }
+    NSLog(@"after database print");
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
