@@ -1,0 +1,8 @@
+import sqlite3;
+from datetime import datetime, date;
+
+conn = sqlite3.connect('QandA.sqlite3')
+c = conn.cursor()
+c.execute('drop table if exists QandA')
+c.execute('create table QandA(id integer primary key autoincrement, question text, answerA text, answerB text, answerC text, answerD text, correctIndex integer')
+
