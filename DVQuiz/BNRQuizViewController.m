@@ -200,29 +200,29 @@
     [self.statusLabel sizeToFit];
     
     [self displayScore];
+    self.timerLabel.text = [NSString stringWithFormat:@"%d sec", _questionTimerLeft];
+    
 }
 
 -(void)questionTimerHandler
 {
     NSLog(@"Entered questionTimerHandler");
+    self.questionTimerLeft--;
     if (self.questionTimerLeft > 0)
     {
         self.timerLabel.text = [NSString stringWithFormat:@"%d sec", _questionTimerLeft];
-        self.questionTimerLeft--;
+        
     }
     else if (self.questionTimerLeft == 0)
     {
         self.timerLabel.text = @"Buzz!";
-        self.questionTimerLeft--;
         [self stallForTime:1.0]; // don't respond to button presses after Buzz for 1.0 second
     }
     else // questionTimerLeft < 0
     {
+        [self nextQuestion];
         self.questionTimerLeft = 5;
         self.timerLabel.text = [NSString stringWithFormat:@"%d sec", _questionTimerLeft];
-        self.questionTimerLeft--;
-        
-        [self nextQuestion];
     }
 }
 
