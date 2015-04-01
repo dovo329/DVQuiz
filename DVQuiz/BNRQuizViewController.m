@@ -7,6 +7,7 @@
 //
 
 #import "BNRQuizViewController.h"
+#import "QuizOverViewController.h"
 #import "DVQuizQuestion.h"
 
 @interface BNRQuizViewController ()
@@ -65,7 +66,7 @@
     [self displayCurrentQuestion];
     [self.questionTimer invalidate];
     self.questionTimer = nil;
-    [NSTimer scheduledTimerWithTimeInterval:1.0
+    self.questionTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                      target:self
                                    selector:@selector(nextQuestion)
                                    userInfo:nil
@@ -87,7 +88,7 @@
     [self displayCurrentQuestion];
     [self.questionTimer invalidate];
     self.questionTimer = nil;
-    [NSTimer scheduledTimerWithTimeInterval:1.0
+    self.questionTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                      target:self
                                    selector:@selector(nextQuestion)
                                    userInfo:nil
@@ -109,7 +110,7 @@
     [self displayCurrentQuestion];
     [self.questionTimer invalidate];
     self.questionTimer = nil;
-    [NSTimer scheduledTimerWithTimeInterval:1.0
+    self.questionTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                      target:self
                                    selector:@selector(nextQuestion)
                                    userInfo:nil
@@ -131,22 +132,36 @@
     [self displayCurrentQuestion];
     [self.questionTimer invalidate];
     self.questionTimer = nil;
-    [NSTimer scheduledTimerWithTimeInterval:1.0
+    self.questionTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                      target:self
                                    selector:@selector(nextQuestion)
                                    userInfo:nil
                                     repeats:NO];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    if (self.questionTimer)
+    {
+        NSLog(@"Invalidating timer");
+        [self.questionTimer invalidate];
+        self.questionTimer = nil;
+    }
+    //[NSObject cancelPreviousPerformRequestsWithTarget:self];
+}
+
 - (void)doQuizOver
 {
-    self.questionLabel.text = @"The Quiz is Over!";
-    self.answerALabel.text  = @"Your final score is above";
-    self.answerBLabel.text  = @"";
-    self.answerCLabel.text  = @"";
-    self.answerDLabel.text  = @"";
-    [self displayScore];
-    [self.questionTimer invalidate];
+    QuizOverViewController *overVC =
+    [[QuizOverViewController alloc] init];
+    
+    overVC.answeredRight = self.answeredRight;
+    overVC.answeredTotal = self.answeredTotal;
+    NSLog(@"self.answeredRight=%d; overVC.answeredRight=%d", self.answeredRight, overVC.answeredRight);
+    NSLog(@"self.answeredTotal=%d; overVC.answeredTotal=%d", self.answeredTotal, overVC.answeredTotal);
+
+    [self.navigationController pushViewController:overVC
+                                         animated:YES];
 }
 
 - (void)nextQuestion
@@ -161,9 +176,9 @@
     else
     {
         [self displayCurrentQuestion];
-        if (self.questionTimer) {
-            self.questionTimer = nil;
-        }
+        
+        [self.questionTimer invalidate];
+        self.questionTimer = nil;
         _questionTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                                           target:self
                                                         selector:@selector(timerHandler)
@@ -214,6 +229,7 @@
 
 -(void)timerHandler
 {
+    NSLog(@"Entered timer handler");
     if (_timeLeft > 0)
     {
         self.timerLabel.text = [NSString stringWithFormat:@"%d sec", _timeLeft];

@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "BNRQuizViewController.h"
+#import "QuizOverViewController.h"
 #import "DVQuizQuestion.h"
 
 @interface AppDelegate ()
@@ -23,7 +24,12 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     BNRQuizViewController *quizVC = [[BNRQuizViewController alloc] init];
-    self.window.rootViewController = quizVC;
+    
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:quizVC];
+    
+    [navController setNavigationBarHidden:YES animated:NO];
+    
+    self.window.rootViewController = navController;
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
