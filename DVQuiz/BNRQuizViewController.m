@@ -27,10 +27,16 @@
 @property (nonatomic, weak) IBOutlet UILabel *questionLabel;
 @property (nonatomic, weak) IBOutlet UILabel *statusLabel;
 @property (nonatomic, weak) IBOutlet UILabel *scoreLabel;
-@property (nonatomic, weak) IBOutlet UILabel *answerALabel;
+/*@property (nonatomic, weak) IBOutlet UILabel *answerALabel;
 @property (nonatomic, weak) IBOutlet UILabel *answerBLabel;
 @property (nonatomic, weak) IBOutlet UILabel *answerCLabel;
-@property (nonatomic, weak) IBOutlet UILabel *answerDLabel;
+@property (nonatomic, weak) IBOutlet UILabel *answerDLabel;*/
+
+@property(retain) IBOutlet UIButton *answerAButton;
+@property(retain) IBOutlet UIButton *answerBButton;
+@property(retain) IBOutlet UIButton *answerCButton;
+@property(retain) IBOutlet UIButton *answerDButton;
+
 @property (nonatomic, weak) IBOutlet UILabel *timerLabel;
 
 @property (nonatomic) NSTimer *questionTimer;
@@ -182,19 +188,24 @@
 {
     DVQuizQuestion *quizQuestion = self.quizQuestions[self.currentQuestionIndex];
     
-    
-    
+
     self.questionLabel.text = quizQuestion.question;
-    self.answerALabel.text  = [NSString stringWithFormat:@"A. %@", quizQuestion.answerA ];
+    
+    [self.answerAButton setTitle:[NSString stringWithFormat:@"A. %@", quizQuestion.answerA ] forState:UIControlStateNormal];
+    [self.answerBButton setTitle:[NSString stringWithFormat:@"B. %@", quizQuestion.answerB ] forState:UIControlStateNormal];
+    [self.answerCButton setTitle:[NSString stringWithFormat:@"C. %@", quizQuestion.answerC ] forState:UIControlStateNormal];
+    [self.answerDButton setTitle:[NSString stringWithFormat:@"D. %@", quizQuestion.answerD ] forState:UIControlStateNormal];
+    
+    /*self.answerALabel.text  = [NSString stringWithFormat:@"A. %@", quizQuestion.answerA ];
     self.answerBLabel.text  = [NSString stringWithFormat:@"B. %@", quizQuestion.answerB ];
     self.answerCLabel.text  = [NSString stringWithFormat:@"C. %@", quizQuestion.answerC ];
-    self.answerDLabel.text  = [NSString stringWithFormat:@"D. %@", quizQuestion.answerD ];
+     self.answerDLabel.text  = [NSString stringWithFormat:@"D. %@", quizQuestion.answerD ];*/
     
     self.questionLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.questionLabel.numberOfLines = 0;
     [self.questionLabel sizeToFit];
     
-    self.answerALabel.lineBreakMode = NSLineBreakByWordWrapping;
+    /*self.answerALabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.answerALabel.numberOfLines = 0;
     [self.answerALabel sizeToFit];
     
@@ -208,7 +219,7 @@
     
     self.answerDLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.answerDLabel.numberOfLines = 0;
-    [self.answerDLabel sizeToFit];
+    [self.answerDLabel sizeToFit];*/
     
     self.statusLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.statusLabel.numberOfLines = 0;
@@ -338,7 +349,7 @@
         self.questionLabel.numberOfLines = 0;
         [self.questionLabel sizeToFit];
         
-        self.answerALabel.lineBreakMode = NSLineBreakByWordWrapping;
+        /*self.answerALabel.lineBreakMode = NSLineBreakByWordWrapping;
         self.answerALabel.numberOfLines = 0;
         [self.answerALabel sizeToFit];
 
@@ -352,7 +363,7 @@
         
         self.answerDLabel.lineBreakMode = NSLineBreakByWordWrapping;
         self.answerDLabel.numberOfLines = 0;
-        [self.answerDLabel sizeToFit];
+        [self.answerDLabel sizeToFit];*/
         
         self.statusLabel.lineBreakMode = NSLineBreakByWordWrapping;
         self.statusLabel.numberOfLines = 0;

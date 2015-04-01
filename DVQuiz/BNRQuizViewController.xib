@@ -6,10 +6,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BNRQuizViewController">
             <connections>
-                <outlet property="answerALabel" destination="YH7-jM-2PP" id="iQR-qA-22t"/>
-                <outlet property="answerBLabel" destination="loW-yn-jHe" id="VID-br-rxI"/>
-                <outlet property="answerCLabel" destination="VJQ-rr-Vv5" id="YX2-TZ-Htf"/>
-                <outlet property="answerDLabel" destination="VU7-K2-PMu" id="vtW-QF-XC9"/>
+                <outlet property="answerAButton" destination="Obq-NG-HU3" id="FXQ-Ly-kEr"/>
+                <outlet property="answerBButton" destination="xYG-Tu-zNd" id="cwT-xX-fFI"/>
+                <outlet property="answerCButton" destination="3Yf-uI-19s" id="bt8-PQ-1zF"/>
+                <outlet property="answerDButton" destination="Zma-ml-9Se" id="UH5-hH-53y"/>
                 <outlet property="questionLabel" destination="tFR-wX-IcB" id="Hjb-xD-2t7"/>
                 <outlet property="scoreLabel" destination="1HN-G2-Jqb" id="fbi-Iw-Fhm"/>
                 <outlet property="statusLabel" destination="dd9-NM-8MB" id="9jr-6l-vPL"/>
@@ -34,35 +34,9 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="wordWrap" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YH7-jM-2PP" userLabel="answerALabel">
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Obq-NG-HU3" userLabel="answerAButton">
                     <rect key="frame" x="8" y="149" width="304" height="60"/>
-                    <color key="backgroundColor" red="1" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="wordWrap" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="loW-yn-jHe" userLabel="answerBLabel">
-                    <rect key="frame" x="8" y="214" width="304" height="60"/>
-                    <color key="backgroundColor" red="1" green="0.50196081400000003" blue="0.0" alpha="0.77000000000000002" colorSpace="calibratedRGB"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="wordWrap" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VJQ-rr-Vv5" userLabel="answerCLabel">
-                    <rect key="frame" x="8" y="280" width="304" height="60"/>
-                    <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="0.46000000000000002" colorSpace="calibratedRGB"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="wordWrap" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VU7-K2-PMu" userLabel="answerDLabel">
-                    <rect key="frame" x="8" y="348" width="304" height="60"/>
-                    <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="0.28000000000000003" colorSpace="calibratedRGB"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Obq-NG-HU3" userLabel="answerA">
-                    <rect key="frame" x="8" y="149" width="304" height="60"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="0.57999999999999996" colorSpace="calibratedRGB"/>
                     <state key="normal">
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -71,9 +45,20 @@
                         <action selector="answerA:" destination="-1" eventType="touchDown" id="mv1-Xc-CmX"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Yf-uI-19s" userLabel="answerC">
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xYG-Tu-zNd" userLabel="answerBButton">
+                    <rect key="frame" x="8" y="214" width="304" height="60"/>
+                    <color key="backgroundColor" red="1" green="0.50196081399917603" blue="0.0" alpha="0.64000000000000001" colorSpace="calibratedRGB"/>
+                    <state key="normal">
+                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="answerB:" destination="-1" eventType="touchDown" id="Erv-kX-igZ"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Yf-uI-19s" userLabel="answerCButton">
                     <rect key="frame" x="8" y="280" width="304" height="60"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="0.64000000000000001" colorSpace="calibratedRGB"/>
                     <state key="normal">
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -82,25 +67,15 @@
                         <action selector="answerC:" destination="-1" eventType="touchDown" id="14C-hb-9rN"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zma-ml-9Se" userLabel="answerD">
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zma-ml-9Se" userLabel="answerDButton">
                     <rect key="frame" x="8" y="348" width="304" height="60"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="0.58999999999999997" colorSpace="calibratedRGB"/>
                     <state key="normal">
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
                         <action selector="answerD:" destination="-1" eventType="touchDown" id="t25-bl-FIr"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xYG-Tu-zNd" userLabel="answerB">
-                    <rect key="frame" x="8" y="214" width="304" height="60"/>
-                    <state key="normal">
-                        <color key="titleColor" red="0.25098040699958801" green="0.0" blue="0.50196081399917603" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="answerB:" destination="-1" eventType="touchDown" id="Erv-kX-igZ"/>
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1HN-G2-Jqb" userLabel="scoreLabel">
