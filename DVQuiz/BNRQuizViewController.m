@@ -53,13 +53,23 @@
     self.questionTimerLeft=5;
 }
 
+- (void)displayScore:(int)numRight total:(int)tot
+{
+    if (tot != 0)
+    {
+        self.scoreLabel.text = [NSString stringWithFormat:@"%d/%d: %.0f%%", numRight, tot, 100*((float)self.answeredRight/(float)tot) ];
+    } else {
+        self.scoreLabel.text = [NSString stringWithFormat:@"0/0: 0%%"];
+    }
+}
+
 - (void)displayScore
 {
     if (self.currentQuestionIndex != 0)
     {
         self.scoreLabel.text = [NSString stringWithFormat:@"%d/%d: %.0f%%", self.answeredRight, self.currentQuestionIndex, 100*((float)self.answeredRight/(float)self.currentQuestionIndex) ];
     } else {
-        self.scoreLabel.text = [NSString stringWithFormat:@"0: 0%%"];
+        self.scoreLabel.text = [NSString stringWithFormat:@"0/0: 0%%"];
     }
 }
 
@@ -76,11 +86,15 @@
         DVQuizQuestion *quizQuestion = self.quizQuestions[self.currentQuestionIndex];
         if (quizQuestion.correctIndex==answerIndex)
         {
-            self.statusLabel.text = @"A. Correct!";
             self.answeredRight++;
+            self.statusLabel.text = @"A. Correct!";
         } else {
             self.statusLabel.text = @"A. Wrong!";
         }
+        
+        // display updated score.  It's currentQuestionIndex + 1 because you just answered the question, but currentQuestionIndex hasn't been updated yet
+        // it is updated in the nextQuestion method (though should it be?)
+        [self displayScore:self.answeredRight total:(self.currentQuestionIndex+1)];
         
         [self stallForTime:1.0];
     } else {
