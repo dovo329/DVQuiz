@@ -13,9 +13,8 @@
 @interface BNRQuizViewController ()
 
 @property (nonatomic) int answeredRight;
-@property (nonatomic) int answeredTotal;
-
 @property (nonatomic) int currentQuestionIndex;
+
 
 /*@property (nonatomic, copy) NSArray *questions;
 @property (nonatomic, copy) NSArray *answersA;
@@ -44,11 +43,21 @@
 
 @implementation BNRQuizViewController
 
+- (void)disableQuestionTimer
+{
+    if (self.questionTimer)
+    {
+        [self.questionTimer invalidate];
+        self.questionTimer = nil;
+    }
+    self.questionTimerLeft=5;
+}
+
 - (void)displayScore
 {
-    if (_answeredTotal != 0)
+    if (self.currentQuestionIndex != 0)
     {
-        self.scoreLabel.text = [NSString stringWithFormat:@"%d/%d: %.0f%%", _answeredRight, _answeredTotal, 100*((float)_answeredRight/(float)_answeredTotal) ];
+        self.scoreLabel.text = [NSString stringWithFormat:@"%d/%d: %.0f%%", self.answeredRight, self.currentQuestionIndex, 100*((float)self.answeredRight/(float)self.currentQuestionIndex) ];
     } else {
         self.scoreLabel.text = [NSString stringWithFormat:@"0: 0%%"];
     }
@@ -64,7 +73,7 @@
             self.questionTimer = nil;
         }
         
-        DVQuizQuestion *quizQuestion = self.quizQuestions[_currentQuestionIndex];
+        DVQuizQuestion *quizQuestion = self.quizQuestions[self.currentQuestionIndex];
         if (quizQuestion.correctIndex==answerIndex)
         {
             self.statusLabel.text = @"A. Correct!";
@@ -73,19 +82,7 @@
             self.statusLabel.text = @"A. Wrong!";
         }
         
-        _answeredTotal++;
-        [self displayCurrentQuestion];
-        if (self.stallTimer)
-        {
-            [self.stallTimer invalidate];
-            self.stallTimer = nil;
-        }
-        self.stallFlag = true;
-        self.stallTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
-                                         target:self
-                                       selector:@selector(stallTimerHandler)
-                                       userInfo:nil
-                                        repeats:NO];
+        [self stallForTime:1.0];
     } else {
         NSLog(@"Stalling");
     }
@@ -114,15 +111,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     self.answeredRight = 0;
-    self.answeredTotal = 0;
     self.currentQuestionIndex = 0;
     [self displayCurrentQuestion];
-    if (self.questionTimer)
-    {
-        [self.questionTimer invalidate];
-        self.questionTimer = nil;
-    }
-    self.questionTimerLeft=5;
+    [self disableQuestionTimer];
     self.questionTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                                       target:self
                                                     selector:@selector(questionTimerHandler)
@@ -132,13 +123,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    if (self.questionTimer)
-    {
-        NSLog(@"Invalidating timer");
-        [self.questionTimer invalidate];
-        self.questionTimer = nil;
-    }
-    //[NSObject cancelPreviousPerformRequestsWithTarget:self];
+    [self disableQuestionTimer];
 }
 
 - (void)doQuizOver
@@ -147,9 +132,9 @@
     [[QuizOverViewController alloc] init];
     
     overVC.answeredRight = self.answeredRight;
-    overVC.answeredTotal = self.answeredTotal;
+    overVC.answeredTotal = self.currentQuestionIndex;
     NSLog(@"self.answeredRight=%d; overVC.answeredRight=%d", self.answeredRight, overVC.answeredRight);
-    NSLog(@"self.answeredTotal=%d; overVC.answeredTotal=%d", self.answeredTotal, overVC.answeredTotal);
+    NSLog(@"self.currentQuestionIndex=%d; overVC.answeredTotal=%d", self.currentQuestionIndex, overVC.answeredTotal);
 
     [self.navigationController pushViewController:overVC
                                          animated:YES];
@@ -158,22 +143,18 @@
 - (void)nextQuestion
 {
     self.statusLabel.text = @"";
-    _questionTimerLeft=5;
+    
     self.currentQuestionIndex++;
     if (self.currentQuestionIndex == [self.quizQuestions count])
     {
-        self.currentQuestionIndex = 0;
         [self doQuizOver];
+        self.currentQuestionIndex = 0;
     }
     else
     {
         [self displayCurrentQuestion];
         
-        if (self.questionTimer)
-        {
-            [self.questionTimer invalidate];
-            self.questionTimer = nil;
-        }
+        [self disableQuestionTimer];
         self.questionTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                                           target:self
                                                         selector:@selector(questionTimerHandler)
@@ -184,7 +165,7 @@
 
 - (void)displayCurrentQuestion
 {
-    DVQuizQuestion *quizQuestion = self.quizQuestions[_currentQuestionIndex];
+    DVQuizQuestion *quizQuestion = self.quizQuestions[self.currentQuestionIndex];
     
     
     
@@ -224,27 +205,43 @@
 -(void)questionTimerHandler
 {
     NSLog(@"Entered questionTimerHandler");
-    if (_questionTimerLeft > 0)
+    if (self.questionTimerLeft > 0)
     {
         self.timerLabel.text = [NSString stringWithFormat:@"%d sec", _questionTimerLeft];
-        _questionTimerLeft--;
+        self.questionTimerLeft--;
     }
-    else if (_questionTimerLeft == 0)
+    else if (self.questionTimerLeft == 0)
     {
         self.timerLabel.text = @"Buzz!";
-        _questionTimerLeft--;
+        self.questionTimerLeft--;
+        [self stallForTime:1.0]; // don't respond to button presses after Buzz for 1.0 second
     }
-    else
+    else // questionTimerLeft < 0
     {
-        _questionTimerLeft = 5;
+        self.questionTimerLeft = 5;
         self.timerLabel.text = [NSString stringWithFormat:@"%d sec", _questionTimerLeft];
-        _questionTimerLeft--;
+        self.questionTimerLeft--;
         
-        self.answeredTotal++;
         [self nextQuestion];
     }
 }
 
+
+-(void)stallForTime:(float)stallTimeInSeconds
+{
+    [self disableQuestionTimer];
+    if (self.stallTimer)
+    {
+        [self.stallTimer invalidate];
+        self.stallTimer = nil;
+    }
+    self.stallFlag = true;
+    self.stallTimer = [NSTimer scheduledTimerWithTimeInterval:stallTimeInSeconds
+                                                       target:self
+                                                     selector:@selector(stallTimerHandler)
+                                                     userInfo:nil
+                                                      repeats:NO];
+}
 
 -(void)stallTimerHandler
 {
@@ -261,7 +258,7 @@
     
     if (self) {
         _answeredRight = 0;
-        _answeredTotal = 0;
+        _currentQuestionIndex = 0;
         self.quizQuestions = [NSMutableArray array];
         
         DVQuizQuestion *tempQuestion1 = [[DVQuizQuestion alloc]
