@@ -9,6 +9,7 @@
 #import "BNRQuizViewController.h"
 #import "QuizOverViewController.h"
 #import "DVQuizQuestion.h"
+#import "QandADataBase.h"
 
 @interface BNRQuizViewController ()
 
@@ -275,6 +276,7 @@
         _currentQuestionIndex = 0;
         self.quizQuestions = [NSMutableArray array];
         
+        /*
         DVQuizQuestion *tempQuestion1 = [[DVQuizQuestion alloc]
                                         init:@"What is the capital of Utah?"
                                         answerA:@"Ogden"
@@ -313,7 +315,13 @@
                          answerD:@"Burnt Umber"
                          correctIndex:2];
         [self.quizQuestions addObject:tempQuestion1];
+        */
         
+        NSArray *QandAFromDataBase = [QandADataBase database].DVQuizQuestionInfos;
+        for (QandADataBase *info in QandAFromDataBase) {
+            //NSLog(@"%@", info);
+            [self.quizQuestions addObject:info];
+        }
         
         //NSLog(@"tempQuestion1: %@\n\n", tempQuestion1);
         //NSLog(@"tempQuestion2: %@\n\n", tempQuestion2);

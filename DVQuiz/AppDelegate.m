@@ -22,12 +22,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    NSLog(@"before database print");
+    /*NSLog(@"before database print");
     NSArray *QandAFromDataBase = [QandADataBase database].DVQuizQuestionInfos;
     for (QandADataBase *info in QandAFromDataBase) {
         NSLog(@"%@", info);
-    }
-    NSLog(@"after database print");
+     }
+    NSLog(@"after database print");*/
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
