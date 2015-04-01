@@ -64,8 +64,11 @@
     
     _answeredTotal++;
     [self displayCurrentQuestion];
-    [self.questionTimer invalidate];
-    self.questionTimer = nil;
+    if (self.questionTimer)
+    {
+        [self.questionTimer invalidate];
+        self.questionTimer = nil;
+    }
     self.questionTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                      target:self
                                    selector:@selector(nextQuestion)
@@ -86,8 +89,11 @@
     
     self.answeredTotal++;
     [self displayCurrentQuestion];
-    [self.questionTimer invalidate];
-    self.questionTimer = nil;
+    if (self.questionTimer)
+    {
+        [self.questionTimer invalidate];
+        self.questionTimer = nil;
+    }
     self.questionTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                      target:self
                                    selector:@selector(nextQuestion)
@@ -108,8 +114,11 @@
     
     self.answeredTotal++;
     [self displayCurrentQuestion];
-    [self.questionTimer invalidate];
-    self.questionTimer = nil;
+    if (self.questionTimer)
+    {
+        [self.questionTimer invalidate];
+        self.questionTimer = nil;
+    }
     self.questionTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                      target:self
                                    selector:@selector(nextQuestion)
@@ -130,13 +139,35 @@
     
     self.answeredTotal++;
     [self displayCurrentQuestion];
-    [self.questionTimer invalidate];
-    self.questionTimer = nil;
+    if (self.questionTimer)
+    {
+        [self.questionTimer invalidate];
+        self.questionTimer = nil;
+    }
     self.questionTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                      target:self
                                    selector:@selector(nextQuestion)
                                    userInfo:nil
                                     repeats:NO];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.answeredRight = 0;
+    self.answeredTotal = 0;
+    self.currentQuestionIndex = 0;
+    [self displayCurrentQuestion];
+    if (self.questionTimer)
+    {
+        [self.questionTimer invalidate];
+        self.questionTimer = nil;
+    }
+    self.timeLeft=5;
+    self.questionTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                      target:self
+                                                    selector:@selector(timerHandler)
+                                                    userInfo:nil
+                                                     repeats:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -177,8 +208,11 @@
     {
         [self displayCurrentQuestion];
         
-        [self.questionTimer invalidate];
-        self.questionTimer = nil;
+        if (self.questionTimer)
+        {
+            [self.questionTimer invalidate];
+            self.questionTimer = nil;
+        }
         _questionTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                                           target:self
                                                         selector:@selector(timerHandler)
@@ -338,6 +372,11 @@
         [self.statusLabel sizeToFit];
         
         _timeLeft=5;
+        if (_questionTimer)
+        {
+            [_questionTimer invalidate];
+            _questionTimer = nil;
+        }
         _questionTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                                           target:self
                                                         selector:@selector(timerHandler)

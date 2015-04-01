@@ -45,8 +45,13 @@
 - (IBAction)startAgain:(id)sender
 {
     self.scoreLabel.text = @"Please dismiss me.";
+    [self.navigationController popToRootViewControllerAnimated:true];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+}
 
 /*
 #pragma mark - Navigation
