@@ -287,46 +287,6 @@
         _currentQuestionIndex = 0;
         self.quizQuestions = [NSMutableArray array];
         
-        /*
-        DVQuizQuestion *tempQuestion1 = [[DVQuizQuestion alloc]
-                                        init:@"What is the capital of Utah?"
-                                        answerA:@"Ogden"
-                                        answerB:@"Salt Lake City"
-                                        answerC:@"Provo"
-                                        answerD:@"Orem"
-                                        correctIndex:1];
-        [self.quizQuestions addObject:tempQuestion1];
-        
-        tempQuestion1 = nil;
-        tempQuestion1 = [[DVQuizQuestion alloc]
-                                        init:@"What is the capital of California?"
-                                        answerA:@"Sacramento"
-                                        answerB:@"Los Angeles"
-                                        answerC:@"Bakersfield"
-                                        answerD:@"Hesperia"
-                                        correctIndex:0];
-        [self.quizQuestions addObject:tempQuestion1];
-        
-        tempQuestion1 = nil;
-        tempQuestion1 = [[DVQuizQuestion alloc]
-                         init:@"Who was the inventor of the Hokey Pokey song and dance?"
-                         answerA:@"Jimmy Kennedy"
-                         answerB:@"Robert Degan and Joe Brier"
-                         answerC:@"Al Tabor"
-                         answerD:@"No one knows"
-                         correctIndex:3];
-        [self.quizQuestions addObject:tempQuestion1];
-        
-        tempQuestion1 = nil;
-        tempQuestion1 = [[DVQuizQuestion alloc]
-                         init:@"What, is your favorite color?"
-                         answerA:@"Blue... No, Red!"
-                         answerB:@"Clear"
-                         answerC:@"Fuschia"
-                         answerD:@"Burnt Umber"
-                         correctIndex:2];
-        [self.quizQuestions addObject:tempQuestion1];
-        */
         
         NSArray *QandAFromDataBase = [QandADataBase database].DVQuizQuestionInfos;
         for (QandADataBase *info in QandAFromDataBase) {
@@ -334,36 +294,9 @@
             [self.quizQuestions addObject:info];
         }
         
-        //NSLog(@"tempQuestion1: %@\n\n", tempQuestion1);
-        //NSLog(@"tempQuestion2: %@\n\n", tempQuestion2);
-        
-        //NSLog(@"[self.quizQuestions count]=%d", [self.quizQuestions count]);
-        /*for (int i=0; i<[self.quizQuestions count]; i++) {
-            NSLog(@"self.quizQuestions[%d]: %@\n\n", i, self.quizQuestions[i]);
-        }*/
-        
-        //NSLog(@"self.quizQuestions[0]: %@\n\n", self.quizQuestions[0]);
-        //NSLog(@"self.quizQuestions[1]: %@\n\n", self.quizQuestions[1]);
-        
         self.questionLabel.lineBreakMode = NSLineBreakByWordWrapping;
         self.questionLabel.numberOfLines = 0;
         [self.questionLabel sizeToFit];
-        
-        /*self.answerALabel.lineBreakMode = NSLineBreakByWordWrapping;
-        self.answerALabel.numberOfLines = 0;
-        [self.answerALabel sizeToFit];
-
-        self.answerBLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        self.answerBLabel.numberOfLines = 0;
-        [self.answerBLabel sizeToFit];
- 
-        self.answerCLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        self.answerCLabel.numberOfLines = 0;
-        [self.answerCLabel sizeToFit];
-        
-        self.answerDLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        self.answerDLabel.numberOfLines = 0;
-        [self.answerDLabel sizeToFit];*/
         
         self.statusLabel.lineBreakMode = NSLineBreakByWordWrapping;
         self.statusLabel.numberOfLines = 0;
