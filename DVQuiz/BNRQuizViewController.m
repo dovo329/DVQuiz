@@ -15,6 +15,7 @@
 @interface BNRQuizViewController ()
 {
     SystemSoundID _buzzSound;
+    SystemSoundID _yaySound;
 }
 
 @property (nonatomic) int answeredRight;
@@ -100,8 +101,10 @@
         {
             self.answeredRight++;
             self.statusLabel.text = @"A. Correct!";
+            AudioServicesPlaySystemSound(_yaySound);
         } else {
             self.statusLabel.text = @"A. Wrong!";
+            AudioServicesPlaySystemSound(_buzzSound);
         }
         
         // display updated score.  It's currentQuestionIndex + 1 because you just answered the question, but currentQuestionIndex hasn't been updated yet
@@ -293,6 +296,11 @@
                                 pathForResource:@"buzz" ofType:@"wav"];
         NSURL *buzzSoundURL = [NSURL fileURLWithPath:buzzSoundPath];
         AudioServicesCreateSystemSoundID((__bridge CFURLRef)buzzSoundURL, &_buzzSound);
+        
+        NSString *yaySoundPath = [[NSBundle mainBundle]
+                                   pathForResource:@"yay" ofType:@"wav"];
+        NSURL *yaySoundURL = [NSURL fileURLWithPath:yaySoundPath];
+        AudioServicesCreateSystemSoundID((__bridge CFURLRef)yaySoundURL, &_yaySound);
         
         _answeredRight = 0;
         _currentQuestionIndex = 0;
