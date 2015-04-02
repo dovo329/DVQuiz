@@ -10,8 +10,12 @@
 #import "QuizOverViewController.h"
 #import "DVQuizQuestion.h"
 #import "QandADataBase.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 @interface BNRQuizViewController ()
+{
+    SystemSoundID _buzzSound;
+}
 
 @property (nonatomic) int answeredRight;
 @property (nonatomic) int currentQuestionIndex;
@@ -45,6 +49,7 @@
 //stall timer used for stalling display from when user presses an answer button to when it displays the next question.
 @property (nonatomic) NSTimer *stallTimer;
 @property (nonatomic) bool stallFlag;
+
 
 @end
 
@@ -243,6 +248,7 @@
     {
         self.timerLabel.text = @"Buzz!";
         [self stallForTime:1.0]; // don't respond to button presses after Buzz for 1.0 second
+        AudioServicesPlaySystemSound(_buzzSound);
     }
     else // questionTimerLeft < 0
     {
@@ -283,6 +289,11 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
     if (self) {
+        NSString *buzzSoundPath = [[NSBundle mainBundle]
+                                pathForResource:@"buzz" ofType:@"wav"];
+        NSURL *buzzSoundURL = [NSURL fileURLWithPath:buzzSoundPath];
+        AudioServicesCreateSystemSoundID((__bridge CFURLRef)buzzSoundURL, &_buzzSound);
+        
         _answeredRight = 0;
         _currentQuestionIndex = 0;
         self.quizQuestions = [NSMutableArray array];

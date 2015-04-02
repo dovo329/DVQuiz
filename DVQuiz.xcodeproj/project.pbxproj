@@ -10,6 +10,7 @@
 		A54841B31ACCA8A000053648 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A54841B21ACCA8A000053648 /* libsqlite3.dylib */; };
 		A54841B51ACCA8ED00053648 /* QandA.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = A54841B41ACCA8ED00053648 /* QandA.sqlite3 */; };
 		A54841B81ACCA93200053648 /* QandADataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = A54841B71ACCA93200053648 /* QandADataBase.m */; };
+		A54841BA1ACCC50400053648 /* buzz.wav in Resources */ = {isa = PBXBuildFile; fileRef = A54841B91ACCC50400053648 /* buzz.wav */; };
 		A54FCB991AC3A1CF00640E66 /* DVQuizQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = A54FCB981AC3A1CF00640E66 /* DVQuizQuestion.m */; };
 		A550627B1ACB644D0061392F /* QuizOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A55062791ACB644D0061392F /* QuizOverViewController.m */; };
 		A550627C1ACB644D0061392F /* QuizOverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A550627A1ACB644D0061392F /* QuizOverViewController.xib */; };
@@ -36,6 +37,7 @@
 		A54841B41ACCA8ED00053648 /* QandA.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = QandA.sqlite3; sourceTree = "<group>"; };
 		A54841B61ACCA93200053648 /* QandADataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QandADataBase.h; sourceTree = "<group>"; };
 		A54841B71ACCA93200053648 /* QandADataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QandADataBase.m; sourceTree = "<group>"; };
+		A54841B91ACCC50400053648 /* buzz.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = buzz.wav; sourceTree = "<group>"; };
 		A54FCB971AC3A1CF00640E66 /* DVQuizQuestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVQuizQuestion.h; sourceTree = "<group>"; };
 		A54FCB981AC3A1CF00640E66 /* DVQuizQuestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVQuizQuestion.m; sourceTree = "<group>"; };
 		A55062781ACB644D0061392F /* QuizOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuizOverViewController.h; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 		A5689BF21ABD1E3200299A4C /* DVQuiz */ = {
 			isa = PBXGroup;
 			children = (
+				A54841B91ACCC50400053648 /* buzz.wav */,
 				A54841B41ACCA8ED00053648 /* QandA.sqlite3 */,
 				A5689BF71ABD1E3200299A4C /* AppDelegate.h */,
 				A5689BF81ABD1E3200299A4C /* AppDelegate.m */,
@@ -206,6 +209,7 @@
 				A5689C1D1ABD244700299A4C /* BNRQuizViewController.xib in Resources */,
 				A5689BFF1ABD1E3200299A4C /* Main.storyboard in Resources */,
 				A54841B51ACCA8ED00053648 /* QandA.sqlite3 in Resources */,
+				A54841BA1ACCC50400053648 /* buzz.wav in Resources */,
 				A5689C011ABD1E3200299A4C /* Images.xcassets in Resources */,
 				A550627C1ACB644D0061392F /* QuizOverViewController.xib in Resources */,
 			);
