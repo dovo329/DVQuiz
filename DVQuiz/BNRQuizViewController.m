@@ -1,9 +1,8 @@
 //
 //  BNRQuizViewController.m
-//  Quiz2
+//  DVQuiz
 //
 //  Created by Douglas Voss on 3/20/15.
-//  Copyright (c) 2015 Big Nerd Ranch. All rights reserved.
 //
 
 #import "BNRQuizViewController.h"
@@ -11,6 +10,10 @@
 #import "DVQuizQuestion.h"
 #import "QandADataBase.h"
 #import <AudioToolbox/AudioToolbox.h>
+#import <Firebase/Firebase.h>
+
+enum subjectEnumType {geography, science, trick};
+
 
 @interface BNRQuizViewController ()
 {
@@ -19,23 +22,13 @@
 }
 
 @property (nonatomic) int answeredRight;
-@property (nonatomic) int currentQuestionIndex;
-
-
-/*@property (nonatomic, copy) NSArray *questions;
-@property (nonatomic, copy) NSArray *answersA;
-@property (nonatomic, copy) NSArray *answersB;*/
-@property (nonatomic) NSMutableArray *quizQuestions;
-//@property (nonatomic) DVQuizQuestion *quizQuestion;
-
+@property (nonatomic) int answeredTotal;
+@property (nonatomic) int maxQuestions;
 
 @property (nonatomic, weak) IBOutlet UILabel *questionLabel;
 @property (nonatomic, weak) IBOutlet UILabel *statusLabel;
 @property (nonatomic, weak) IBOutlet UILabel *scoreLabel;
-/*@property (nonatomic, weak) IBOutlet UILabel *answerALabel;
-@property (nonatomic, weak) IBOutlet UILabel *answerBLabel;
-@property (nonatomic, weak) IBOutlet UILabel *answerCLabel;
-@property (nonatomic, weak) IBOutlet UILabel *answerDLabel;*/
+
 
 @property(retain) IBOutlet UIButton *answerAButton;
 @property(retain) IBOutlet UIButton *answerBButton;
@@ -52,9 +45,16 @@
 @property (nonatomic) bool stallFlag;
 
 
+@property (nonatomic) Firebase *geographyRef;
+@property (nonatomic) Firebase *scienceRef;
+@property (nonatomic) Firebase *trickRef;
+
+@property (nonatomic) DVQuizQuestion *randomDVQuizQuestion;
+
 @end
 
 @implementation BNRQuizViewController
+
 
 - (void)disableQuestionTimer
 {
@@ -78,9 +78,9 @@
 
 - (void)displayScore
 {
-    if (self.currentQuestionIndex != 0)
+    if (self.answeredTotal != 0)
     {
-        self.scoreLabel.text = [NSString stringWithFormat:@"%d/%d: %.0f%%", self.answeredRight, self.currentQuestionIndex, 100*((float)self.answeredRight/(float)self.currentQuestionIndex) ];
+        self.scoreLabel.text = [NSString stringWithFormat:@"%d/%d: %.0f%%", self.answeredRight, self.answeredTotal, 100*((float)self.answeredRight/(float)self.answeredTotal) ];
     } else {
         self.scoreLabel.text = [NSString stringWithFormat:@"0/0: 0%%"];
     }
@@ -96,7 +96,7 @@
             self.questionTimer = nil;
         }
         
-        DVQuizQuestion *quizQuestion = self.quizQuestions[self.currentQuestionIndex];
+        DVQuizQuestion *quizQuestion = self.randomDVQuizQuestion;
         if (quizQuestion.correctIndex==answerIndex)
         {
             self.answeredRight++;
@@ -109,7 +109,7 @@
         
         // display updated score.  It's currentQuestionIndex + 1 because you just answered the question, but currentQuestionIndex hasn't been updated yet
         // it is updated in the nextQuestion method (though should it be?)
-        [self displayScore:self.answeredRight total:(self.currentQuestionIndex+1)];
+        [self displayScore:self.answeredRight total:(self.answeredTotal+1)];
         
         [self stallForTime:1.0];
     } else {
@@ -140,7 +140,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     self.answeredRight = 0;
-    self.currentQuestionIndex = 0;
+    self.answeredTotal = 0;
     [self displayCurrentQuestion];
     [self disableQuestionTimer];
     self.questionTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
@@ -161,9 +161,9 @@
     [[QuizOverViewController alloc] init];
     
     overVC.answeredRight = self.answeredRight;
-    overVC.answeredTotal = self.currentQuestionIndex;
+    overVC.answeredTotal = self.answeredTotal;
     NSLog(@"self.answeredRight=%d; overVC.answeredRight=%d", self.answeredRight, overVC.answeredRight);
-    NSLog(@"self.currentQuestionIndex=%d; overVC.answeredTotal=%d", self.currentQuestionIndex, overVC.answeredTotal);
+    NSLog(@"self.currentQuestionIndex=%d; overVC.answeredTotal=%d", self.answeredTotal, overVC.answeredTotal);
 
     [self.navigationController pushViewController:overVC
                                          animated:YES];
@@ -171,13 +171,15 @@
 
 - (void)nextQuestion
 {
+    [self queryRandomQuestion];
+    
     self.statusLabel.text = @"";
     
-    self.currentQuestionIndex++;
-    if (self.currentQuestionIndex == [self.quizQuestions count])
+    self.answeredTotal++;
+    if (self.answeredTotal >= self.maxQuestions)
     {
         [self doQuizOver];
-        self.currentQuestionIndex = 0;
+        self.answeredTotal = 0;
     }
     else
     {
@@ -194,70 +196,71 @@
 
 - (void)displayCurrentQuestion
 {
-    DVQuizQuestion *quizQuestion = self.quizQuestions[self.currentQuestionIndex];
-    
+    if (self.randomDVQuizQuestion)
+    {
+        DVQuizQuestion *quizQuestion = self.randomDVQuizQuestion;
 
-    self.questionLabel.text = quizQuestion.question;
-    
-    [self.answerAButton setTitle:[NSString stringWithFormat:@"A. %@", quizQuestion.answerA ] forState:UIControlStateNormal];
-    [self.answerBButton setTitle:[NSString stringWithFormat:@"B. %@", quizQuestion.answerB ] forState:UIControlStateNormal];
-    [self.answerCButton setTitle:[NSString stringWithFormat:@"C. %@", quizQuestion.answerC ] forState:UIControlStateNormal];
-    [self.answerDButton setTitle:[NSString stringWithFormat:@"D. %@", quizQuestion.answerD ] forState:UIControlStateNormal];
-    
-    /*self.answerALabel.text  = [NSString stringWithFormat:@"A. %@", quizQuestion.answerA ];
-    self.answerBLabel.text  = [NSString stringWithFormat:@"B. %@", quizQuestion.answerB ];
-    self.answerCLabel.text  = [NSString stringWithFormat:@"C. %@", quizQuestion.answerC ];
-     self.answerDLabel.text  = [NSString stringWithFormat:@"D. %@", quizQuestion.answerD ];*/
-    
-    self.questionLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    self.questionLabel.numberOfLines = 0;
-    [self.questionLabel sizeToFit];
-    
-    /*self.answerALabel.lineBreakMode = NSLineBreakByWordWrapping;
-    self.answerALabel.numberOfLines = 0;
-    [self.answerALabel sizeToFit];
-    
-    self.answerBLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    self.answerBLabel.numberOfLines = 0;
-    [self.answerBLabel sizeToFit];
-    
-    self.answerCLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    self.answerCLabel.numberOfLines = 0;
-    [self.answerCLabel sizeToFit];
-    
-    self.answerDLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    self.answerDLabel.numberOfLines = 0;
-    [self.answerDLabel sizeToFit];*/
-    
-    self.statusLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    self.statusLabel.numberOfLines = 0;
-    [self.statusLabel sizeToFit];
-    
-    [self displayScore];
-    self.timerLabel.text = [NSString stringWithFormat:@"%d sec", _questionTimerLeft];
+        self.questionLabel.text = quizQuestion.question;
+        
+        [self.answerAButton setTitle:[NSString stringWithFormat:@"A. %@", quizQuestion.answerA ] forState:UIControlStateNormal];
+        [self.answerBButton setTitle:[NSString stringWithFormat:@"B. %@", quizQuestion.answerB ] forState:UIControlStateNormal];
+        [self.answerCButton setTitle:[NSString stringWithFormat:@"C. %@", quizQuestion.answerC ] forState:UIControlStateNormal];
+        [self.answerDButton setTitle:[NSString stringWithFormat:@"D. %@", quizQuestion.answerD ] forState:UIControlStateNormal];
+        
+        self.questionLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        self.questionLabel.numberOfLines = 0;
+        [self.questionLabel sizeToFit];
+        
+        self.statusLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        self.statusLabel.numberOfLines = 0;
+        [self.statusLabel sizeToFit];
+        
+        [self displayScore];
+        self.timerLabel.text = [NSString stringWithFormat:@"%d sec", _questionTimerLeft];
+    } else {
+        self.questionLabel.text = @"Querying from database";
+        
+        [self.answerAButton setTitle:@"" forState:UIControlStateNormal];
+        [self.answerBButton setTitle:@"" forState:UIControlStateNormal];
+        [self.answerCButton setTitle:@"" forState:UIControlStateNormal];
+        [self.answerDButton setTitle:@"" forState:UIControlStateNormal];
+        
+        self.questionLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        self.questionLabel.numberOfLines = 0;
+        [self.questionLabel sizeToFit];
+        
+        self.statusLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        self.statusLabel.numberOfLines = 0;
+        [self.statusLabel sizeToFit];
+        
+        [self displayScore];
+        self.timerLabel.text = @"";
+    }
     
 }
 
 -(void)questionTimerHandler
 {
-    NSLog(@"Entered questionTimerHandler");
-    self.questionTimerLeft--;
-    if (self.questionTimerLeft > 0)
-    {
-        self.timerLabel.text = [NSString stringWithFormat:@"%d sec", _questionTimerLeft];
-        
-    }
-    else if (self.questionTimerLeft == 0)
-    {
-        self.timerLabel.text = @"Buzz!";
-        [self stallForTime:1.0]; // don't respond to button presses after Buzz for 1.0 second
-        AudioServicesPlaySystemSound(_buzzSound);
-    }
-    else // questionTimerLeft < 0
-    {
-        [self nextQuestion];
-        self.questionTimerLeft = 5;
-        self.timerLabel.text = [NSString stringWithFormat:@"%d sec", _questionTimerLeft];
+    
+    if (self.randomDVQuizQuestion) {
+        self.questionTimerLeft--;
+        if (self.questionTimerLeft > 0)
+        {
+            self.timerLabel.text = [NSString stringWithFormat:@"%d sec", _questionTimerLeft];
+            
+        }
+        else if (self.questionTimerLeft == 0)
+        {
+            self.timerLabel.text = @"Buzz!";
+            [self stallForTime:1.0]; // don't respond to button presses after Buzz for 1.0 second
+            AudioServicesPlaySystemSound(_buzzSound);
+        }
+        else // questionTimerLeft < 0
+        {
+            [self nextQuestion];
+            self.questionTimerLeft = 5;
+            self.timerLabel.text = [NSString stringWithFormat:@"%d sec", _questionTimerLeft];
+        }
     }
 }
 
@@ -278,12 +281,99 @@
                                                       repeats:NO];
 }
 
+
 -(void)stallTimerHandler
 {
-    NSLog(@"Entered stallTimerHandler");
+    //NSLog(@"Entered stallTimerHandler");
     self.stallFlag = false;
     [self nextQuestion];
 }
+
+
+- (void)queryRandomQuestion
+{
+    self.randomDVQuizQuestion = nil;
+    enum subjectEnumType subjectType = ((int)(arc4random()%3));
+    NSNumber *randomId = [NSNumber numberWithInt:((int)(arc4random() % 3))];
+    
+    Firebase *dbRef;
+    switch (subjectType)
+    {
+        case 0: dbRef = self.geographyRef; break;
+        case 1: dbRef = self.scienceRef; break;
+        case 2: dbRef = self.trickRef; break;
+        default: dbRef = self.geographyRef; break;
+    }
+    
+    void(^dbBlock)(FDataSnapshot *snapshot);
+    dbBlock = ^void(FDataSnapshot *snapshot) {
+        self.randomDVQuizQuestion = nil;
+        self.randomDVQuizQuestion = [[DVQuizQuestion alloc]     init:snapshot.value[@"question"]
+                                                             answerA:snapshot.value[@"answerA"]
+                                                             answerB:snapshot.value[@"answerB"]
+                                                             answerC:snapshot.value[@"answerC"]
+                                                             answerD:snapshot.value[@"answerD"]
+                                                        correctIndex:[snapshot.value[@"correctIndex"] integerValue]];
+        //NSLog(@"queriedRandomQuizQuestion == %@", self.randomDVQuizQuestion);
+        [self displayCurrentQuestion];
+    };
+    [[
+     [dbRef queryOrderedByChild:@"id"]
+     queryEqualToValue:randomId]
+     observeEventType:FEventTypeChildAdded withBlock:dbBlock];
+}
+
+/*
+- (DVQuizQuestion *)getRandomQuestion
+{
+    enum subjectEnumType subjectType = ((int)(arc4random()%3));
+    NSNumber *randomId = [NSNumber numberWithInt:((int)(arc4random() % 3))];
+    __block DVQuizQuestion *returnQuestion;
+
+    
+    NSLog(@"checkpoint b");
+    Firebase *dbRef;
+    switch (subjectType)
+    {
+        case 0: dbRef = self.geographyRef; break;
+        case 1: dbRef = self.scienceRef; break;
+        case 2: dbRef = self.trickRef; break;
+        default: dbRef = self.geographyRef; break;
+    }
+    
+    void(^dbBlock)(FDataSnapshot *snapshot);
+    dbBlock = ^void(FDataSnapshot *snapshot) {
+        //NSLog(@"Checkit id: %@, question: %@, answerA: %@, answerB: %@, answerC: %@, answerD: %@", snapshot.value[@"id"], snapshot.value[@"question"], snapshot.value[@"answerA"], snapshot.value[@"answerB"], snapshot.value[@"answerC"], snapshot.value[@"answerD"]);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            returnQuestion = nil;
+            returnQuestion = [[DVQuizQuestion alloc]     init:snapshot.value[@"question"]
+                                                                 answerA:snapshot.value[@"answerA"]
+                                                                 answerB:snapshot.value[@"answerB"]
+                                                                 answerC:snapshot.value[@"answerC"]
+                                                                 answerD:snapshot.value[@"answerD"]
+                                                            correctIndex:[snapshot.value[@"correctIndex"] integerValue]];
+            NSLog(@"checkpoint c");
+        });
+    };
+    
+    [[
+     [dbRef queryOrderedByChild:@"id"]
+     queryEqualToValue:randomId]
+     observeEventType:FEventTypeChildAdded withBlock:dbBlock];
+    
+
+    NSLog(@"checkpoint d");
+    //dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+    //while (dispatch_semaphore_wait(sema, DISPATCH_TIME_NOW))
+    //{
+    //    [[NSRunLoop currentRunLoop] runMode:@"connectionRunLoopMode" beforeDate:[NSDate distantFuture]];
+    //};
+    //dispatch_release(sema);
+    
+    NSLog(@"after it is returnQuestion %@", returnQuestion);
+    return returnQuestion;
+}*/
 
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil
@@ -303,15 +393,25 @@
         AudioServicesCreateSystemSoundID((__bridge CFURLRef)yaySoundURL, &_yaySound);
         
         _answeredRight = 0;
-        _currentQuestionIndex = 0;
-        self.quizQuestions = [NSMutableArray array];
+        _answeredTotal = 0;
+        _maxQuestions = 10;
+        //_currentQuestionIndex = 0;
+        //self.quizQuestions = [NSMutableArray array];
         
         
-        NSArray *QandAFromDataBase = [QandADataBase database].DVQuizQuestionInfos;
+        /*NSArray *QandAFromDataBase = [QandADataBase database].DVQuizQuestionInfos;
         for (QandADataBase *info in QandAFromDataBase) {
             //NSLog(@"%@", info);
             [self.quizQuestions addObject:info];
-        }
+        }*/
+
+        _geographyRef = [[Firebase alloc] initWithUrl:@"https://dazzling-fire-8210.firebaseio.com/subjects/Geography"];
+        _scienceRef = [[Firebase alloc] initWithUrl:@"https://dazzling-fire-8210.firebaseio.com/subjects/Science"];
+        _trickRef = [[Firebase alloc] initWithUrl:@"https://dazzling-fire-8210.firebaseio.com/subjects/Trick"];
+        
+        [self queryRandomQuestion];
+
+        //DVQuizQuestion *testQuestion = [self getRandomQuestion];
         
         self.questionLabel.lineBreakMode = NSLineBreakByWordWrapping;
         self.questionLabel.numberOfLines = 0;

@@ -1,0 +1,91 @@
+{
+    "subjects" : {
+        "Science" : [
+            {
+            "id" : 0,
+            "question" : "What is the gravitational acceleration constant g in SI units?",
+            "answerA" : "9.7 meters per second squared",
+            "answerB" : "9.9 meters per second squared",
+            "answerC" : "9.81 meters per second squared",
+            "answerD" : "10 meters per second squared",
+            "correctIndex" : 2
+            },
+            {
+            "id" : 1,
+            "question" : "What is approximate air speed velocity of a West African Swallow (Hirundo domicella), in miles per hour",
+            "answerA" : "12 miles per hour",
+            "answerB" : "24 miles per hour",
+            "answerC" : "36 miles per hour",
+            "answerD" : "42 miles per hour",
+            "correctIndex" : 1
+            },
+            {
+            "id" : 2,
+            "question" : "How many light seconds away is the Sun from the Earth?",
+            "answerA" : "112 light seconds",
+            "answerB" : "1,005 light seconds",
+            "answerC" : "2 light seconds",
+            "answerD" : "499 light seconds",
+            "correctIndex" : 3
+            }
+        ],
+        "Trick" : [
+            {
+            "id" : 0,
+            "question" : "What came first, the chicken or the egg?",
+            "answerA" : "The chicken",
+            "answerB" : "The egg",
+            "answerC" : "Neither, because the chicken and egg have always existed so they could never begin to exist and therefore one is incapable of coming before the other.",
+            "answerD" : "Both the chicken and the egg, because if they both came first that would nonsensically explain things, and the beginnings of the universe are rather nonsensical aren't they (the big bang).",
+            "correctIndex" : 2
+            },
+            {
+            "id" : 1,
+            "question" : "How can I get rich quick?",
+            "answerA" : "Ask Scrooge MacDuck for money",
+            "answerB" : "Work hard",
+            "answerC" : "Think and grow rich",
+            "answerD" : "Be in the right place at the right time, and make the right decisions",
+            "correctIndex" : 3
+            },
+            {
+            "id" : 2,
+            "question" : "What is the most enjoyable thing to do?",
+            "answerA" : "Clean up your room",
+            "answerB" : "Sit in front of a computer and try to program stuff",
+            "answerC" : "Stand on your head",
+            "answerD" : "Drink a red slurpee",
+            "correctIndex" : 1
+            }
+        ],
+        "Geography" : [
+            {
+            "id" : 0,
+            "question" : "What is the capital of Oklahoma?",
+            "answerA" : "Oklahoma City",
+            "answerB" : "Norman",
+            "answerC" : "Tulsa",
+            "answerD" : "Lawton",
+            "correctIndex" : 0
+            },
+            {
+            "id" : 1,
+            "question" : "What is the capital of Montana?",
+            "answerA" : "Missoula",
+            "answerB" : "Great Falls",
+            "answerC" : "Billings",
+            "answerD" : "Helena",
+            "correctIndex" : 3
+            },
+            {
+            "id" : 2,
+            "question" : "What is the capital of Delaware?",
+            "answerA" : "Dover",
+            "answerB" : "Newark",
+            "answerC" : "Wilmington",
+            "answerD" : "Bear",
+            "correctIndex" : 0
+            }       
+        ]
+    }
+}

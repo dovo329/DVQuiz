@@ -1,0 +1,10 @@
+{
+  "answerA" : "9.7 m/s^2",
+  "answerB" : "9.9 m/s^2",
+  "answerC" : "9.81 m/s^2",
+  "answerD" : "10 m/s^2",
+  "category" : "Science",
+  "correctIndex" : 2,
+  "id" : 0,
+  "question" : "What is the gravitational acceleration constant g in SI units?"
+}

@@ -49,6 +49,16 @@ correctIndex:(NSInteger)correctIndex
     }
 }
 
+- (id)init
+{
+    return [self init:@"Empty Question"
+              answerA:@"Empty Answer A"
+              answerB:@"Empty Answer B"
+              answerC:@"Empty Answer C"
+              answerD:@"Empty Answer D"
+         correctIndex:0];
+}
+
 -(NSString *)description
 {
     return [NSString stringWithFormat:@"%@\nA. %@\nB. %@\nC. %@\nD. %@\ncorrect: %ld", self.question, self.answerA, self.answerB, self.answerC, self.answerD, (long)self.correctIndex];

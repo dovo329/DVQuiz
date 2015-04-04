@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A53696281ACE097E00AB6D06 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A53696271ACE097E00AB6D06 /* libicucore.dylib */; };
+		A536962A1ACE098800AB6D06 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A53696291ACE098800AB6D06 /* libc++.dylib */; };
+		A536962C1ACE099100AB6D06 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A536962B1ACE099100AB6D06 /* CFNetwork.framework */; };
+		A536962E1ACE099A00AB6D06 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A536962D1ACE099A00AB6D06 /* Security.framework */; };
+		A53696301ACE09A800AB6D06 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A536962F1ACE09A800AB6D06 /* SystemConfiguration.framework */; };
+		A53696311ACE09CA00AB6D06 /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A53696251ACE083A00AB6D06 /* Firebase.framework */; };
 		A54841B31ACCA8A000053648 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A54841B21ACCA8A000053648 /* libsqlite3.dylib */; };
 		A54841B51ACCA8ED00053648 /* QandA.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = A54841B41ACCA8ED00053648 /* QandA.sqlite3 */; };
 		A54841B81ACCA93200053648 /* QandADataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = A54841B71ACCA93200053648 /* QandADataBase.m */; };
@@ -34,6 +40,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A53696251ACE083A00AB6D06 /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Firebase.framework; path = DVQuiz/Firebase.framework; sourceTree = "<group>"; };
+		A53696271ACE097E00AB6D06 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		A53696291ACE098800AB6D06 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		A536962B1ACE099100AB6D06 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		A536962D1ACE099A00AB6D06 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		A536962F1ACE09A800AB6D06 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		A54841B21ACCA8A000053648 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		A54841B41ACCA8ED00053648 /* QandA.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = QandA.sqlite3; sourceTree = "<group>"; };
 		A54841B61ACCA93200053648 /* QandADataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QandADataBase.h; sourceTree = "<group>"; };
@@ -63,6 +75,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A53696311ACE09CA00AB6D06 /* Firebase.framework in Frameworks */,
+				A53696301ACE09A800AB6D06 /* SystemConfiguration.framework in Frameworks */,
+				A536962E1ACE099A00AB6D06 /* Security.framework in Frameworks */,
+				A536962C1ACE099100AB6D06 /* CFNetwork.framework in Frameworks */,
+				A536962A1ACE098800AB6D06 /* libc++.dylib in Frameworks */,
+				A53696281ACE097E00AB6D06 /* libicucore.dylib in Frameworks */,
 				A54841B31ACCA8A000053648 /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -80,6 +98,12 @@
 		A5689BE71ABD1E3200299A4C = {
 			isa = PBXGroup;
 			children = (
+				A53696251ACE083A00AB6D06 /* Firebase.framework */,
+				A536962F1ACE09A800AB6D06 /* SystemConfiguration.framework */,
+				A536962D1ACE099A00AB6D06 /* Security.framework */,
+				A536962B1ACE099100AB6D06 /* CFNetwork.framework */,
+				A53696291ACE098800AB6D06 /* libc++.dylib */,
+				A53696271ACE097E00AB6D06 /* libicucore.dylib */,
 				A54841B21ACCA8A000053648 /* libsqlite3.dylib */,
 				A5689BF21ABD1E3200299A4C /* DVQuiz */,
 				A5689BF11ABD1E3200299A4C /* Products */,
@@ -351,9 +375,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DVQuiz",
+				);
 				INFOPLIST_FILE = DVQuiz/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_NAME = DVQuiz;
 			};
 			name = Debug;
@@ -362,9 +391,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DVQuiz",
+				);
 				INFOPLIST_FILE = DVQuiz/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_NAME = DVQuiz;
 			};
 			name = Release;

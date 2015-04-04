@@ -1,0 +1,14 @@
+{
+    "rules": {
+	".read": true,
+	".write": false,
+        "subjects" : {
+            "Science" : {
+                ".indexOn": ["id"]
+            },
+            "Trick" : {
+                ".indexOn": ["id"]
+            }
+        }
+    }
+}
