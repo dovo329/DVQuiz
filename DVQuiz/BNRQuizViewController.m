@@ -291,6 +291,7 @@ bool alreadyAsked[3][3];
             self.timerLabel.text = @"Buzz!";
             [self stallForTime:1.0]; // don't respond to button presses after Buzz for 1.0 second
             AudioServicesPlaySystemSound(_buzzSound);
+            self.answeredTotal++;
         }
         else // questionTimerLeft < 0
         {
