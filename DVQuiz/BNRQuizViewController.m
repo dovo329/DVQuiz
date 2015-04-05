@@ -200,6 +200,8 @@ bool alreadyAsked[3][3];
     [self.navigationController pushViewController:overVC
                                          animated:YES];
     
+    self.answeredRight = 0;
+    self.answeredTotal = 0;
 }
 
 - (void)nextQuestion
@@ -409,9 +411,10 @@ bool alreadyAsked[3][3];
          [dbRef queryOrderedByChild:@"id"]
          queryEqualToValue:randomId]
          observeEventType:FEventTypeChildAdded withBlock:dbBlock];
+        
+         NSLog(@"Setting alreadyAsked[%d][%d] to true", subjectType, randomIdInt);
+         alreadyAsked[subjectType][randomIdInt] = true;
     }
-    NSLog(@"Setting alreadyAsked[%d][%d] to true", subjectType, randomIdInt);
-    alreadyAsked[subjectType][randomIdInt] = true;
 }
 
 /*
