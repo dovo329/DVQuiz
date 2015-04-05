@@ -51,9 +51,36 @@ enum subjectEnumType {geography, science, trick};
 
 @property (nonatomic) DVQuizQuestion *randomDVQuizQuestion;
 
+/*@property (nonatomic) NSMutableArray *alreadyAskedQuestions;
+
+struct trackedQuestionStruct
+{
+    __unsafe_unretained NSString *subject;
+    int   questionId;
+};
+
+@property (nonatomic) struct trackedQuestionStruct trackedQuestion;*/
+
+/*
+@property (nonatomic) NSMutableArray *askedQuestionIdPerSubject;
+@property (nonatomic) NSMutableArray *askedQuestionId;
+*/
+
 @end
 
+
 @implementation BNRQuizViewController
+
+bool alreadyAsked[3][3];
+
+- (void)resetAlreadyAsked
+{
+    for (int r=0; r<3; r++) {
+        for (int c=0; c<3; c++) {
+            alreadyAsked[r][c] = false;
+        }
+    }
+}
 
 
 - (void)disableQuestionTimer
@@ -107,9 +134,8 @@ enum subjectEnumType {geography, science, trick};
             AudioServicesPlaySystemSound(_buzzSound);
         }
         
-        // display updated score.  It's currentQuestionIndex + 1 because you just answered the question, but currentQuestionIndex hasn't been updated yet
-        // it is updated in the nextQuestion method (though should it be?)
-        [self displayScore:self.answeredRight total:(self.answeredTotal+1)];
+        self.answeredTotal++;
+        [self displayScore:self.answeredRight total:(self.answeredTotal)];
         
         [self stallForTime:1.0];
     } else {
@@ -137,10 +163,13 @@ enum subjectEnumType {geography, science, trick};
     [self handleAnswer:3];
 }
 
+
+
 - (void)viewWillAppear:(BOOL)animated
 {
     self.answeredRight = 0;
     self.answeredTotal = 0;
+    [self queryRandomQuestion];
     [self displayCurrentQuestion];
     [self disableQuestionTimer];
     self.questionTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
@@ -157,6 +186,9 @@ enum subjectEnumType {geography, science, trick};
 
 - (void)doQuizOver
 {
+    [self resetAlreadyAsked];
+    [self disableQuestionTimer];
+    
     QuizOverViewController *overVC =
     [[QuizOverViewController alloc] init];
     
@@ -167,15 +199,18 @@ enum subjectEnumType {geography, science, trick};
 
     [self.navigationController pushViewController:overVC
                                          animated:YES];
+    
 }
 
 - (void)nextQuestion
 {
+    /*[self.askedQuestionIdPerSubject[0] ];
+    _askedQuestionId = [[NSMutableArray alloc] init];*/
+    
     [self queryRandomQuestion];
     
     self.statusLabel.text = @"";
     
-    self.answeredTotal++;
     if (self.answeredTotal >= self.maxQuestions)
     {
         [self doQuizOver];
@@ -290,37 +325,93 @@ enum subjectEnumType {geography, science, trick};
 }
 
 
+- (void)printAlreadyAsked
+{
+    for (int r=0; r<3; r++) {
+        for (int c=0; c<3; c++) {
+            NSLog(@"alreadyAsked[%d][%d]==%d", r, c, alreadyAsked[r][c]);
+        }
+    }
+}
+
+- (bool)haveAllBeenAsked
+{
+    bool allAsked = true;
+    for (int r=0; r<3; r++) {
+        for (int c=0; c<3; c++) {
+            //NSLog(@"alreadyAsked[%d][%d]==%d", r, c, alreadyAsked[r][c]);
+            if (!alreadyAsked[r][c]) {
+                allAsked = false;
+            }
+        }
+    }
+    return allAsked;
+}
+
+
 - (void)queryRandomQuestion
 {
     self.randomDVQuizQuestion = nil;
     enum subjectEnumType subjectType = ((int)(arc4random()%3));
-    NSNumber *randomId = [NSNumber numberWithInt:((int)(arc4random() % 3))];
+    int randomIdInt = ((int)(arc4random() % 3));
+    NSNumber *randomId = [NSNumber numberWithInt:randomIdInt];
+
+    NSLog(@"totalQuestionsAsked = %d", self.answeredTotal);
+    [self printAlreadyAsked];
     
-    Firebase *dbRef;
-    switch (subjectType)
+    bool allAsked = [self haveAllBeenAsked];
+    NSLog(@"allAsked=%d", allAsked);
+    
+    if (allAsked)
     {
-        case 0: dbRef = self.geographyRef; break;
-        case 1: dbRef = self.scienceRef; break;
-        case 2: dbRef = self.trickRef; break;
-        default: dbRef = self.geographyRef; break;
+        [self doQuizOver];
+        self.answeredTotal = 0;
+    } else {
+        
+        while (alreadyAsked[subjectType][randomIdInt])
+        {
+            NSLog(@"random selection was already asked for alreadyAsked[%d][%d]==%d", subjectType, randomIdInt, alreadyAsked[subjectType][randomIdInt]);
+            [self printAlreadyAsked];
+            randomIdInt++;
+            if (randomIdInt >= 3) {
+                subjectType++;
+                if (subjectType >= 3) {
+                    subjectType = 0;
+                }
+                randomIdInt = 0;
+            }
+            randomId = [NSNumber numberWithInt:randomIdInt];
+            NSLog(@"new random selection is alreadyAsked[%d][%d]==%d", subjectType, randomIdInt, alreadyAsked[subjectType][randomIdInt]);
+        }
+        
+        Firebase *dbRef;
+        switch (subjectType)
+        {
+            case 0: dbRef = self.geographyRef; break;
+            case 1: dbRef = self.scienceRef; break;
+            case 2: dbRef = self.trickRef; break;
+            default: dbRef = self.geographyRef; break;
+        }
+        
+        void(^dbBlock)(FDataSnapshot *snapshot);
+        dbBlock = ^void(FDataSnapshot *snapshot) {
+            self.randomDVQuizQuestion = nil;
+            self.randomDVQuizQuestion = [[DVQuizQuestion alloc]     init:snapshot.value[@"question"]
+                                                                 answerA:snapshot.value[@"answerA"]
+                                                                 answerB:snapshot.value[@"answerB"]
+                                                                 answerC:snapshot.value[@"answerC"]
+                                                                 answerD:snapshot.value[@"answerD"]
+                                                            correctIndex:[snapshot.value[@"correctIndex"] integerValue]];
+            //NSLog(@"queriedRandomQuizQuestion == %@", self.randomDVQuizQuestion);
+            [self displayCurrentQuestion];
+        };
+        [[
+         [dbRef queryOrderedByChild:@"id"]
+         queryEqualToValue:randomId]
+         observeEventType:FEventTypeChildAdded withBlock:dbBlock];
     }
-    
-    void(^dbBlock)(FDataSnapshot *snapshot);
-    dbBlock = ^void(FDataSnapshot *snapshot) {
-        self.randomDVQuizQuestion = nil;
-        self.randomDVQuizQuestion = [[DVQuizQuestion alloc]     init:snapshot.value[@"question"]
-                                                             answerA:snapshot.value[@"answerA"]
-                                                             answerB:snapshot.value[@"answerB"]
-                                                             answerC:snapshot.value[@"answerC"]
-                                                             answerD:snapshot.value[@"answerD"]
-                                                        correctIndex:[snapshot.value[@"correctIndex"] integerValue]];
-        //NSLog(@"queriedRandomQuizQuestion == %@", self.randomDVQuizQuestion);
-        [self displayCurrentQuestion];
-    };
-    [[
-     [dbRef queryOrderedByChild:@"id"]
-     queryEqualToValue:randomId]
-     observeEventType:FEventTypeChildAdded withBlock:dbBlock];
+    NSLog(@"Setting alreadyAsked[%d][%d] to true", subjectType, randomIdInt);
+    alreadyAsked[subjectType][randomIdInt] = true;
 }
 
 /*
@@ -409,7 +500,11 @@ enum subjectEnumType {geography, science, trick};
         _scienceRef = [[Firebase alloc] initWithUrl:@"https://dazzling-fire-8210.firebaseio.com/subjects/Science"];
         _trickRef = [[Firebase alloc] initWithUrl:@"https://dazzling-fire-8210.firebaseio.com/subjects/Trick"];
         
-        [self queryRandomQuestion];
+        /*
+        _askedQuestionIdPerSubject = [[NSMutableArray alloc] initWithCapacity:3];
+        _askedQuestionId = [[NSMutableArray alloc] init];
+         */
+        [self resetAlreadyAsked];
 
         //DVQuizQuestion *testQuestion = [self getRandomQuestion];
         
