@@ -22,6 +22,9 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="fresh-spring-background.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="VQj-3j-AwJ">
+                    <rect key="frame" x="0.0" y="-3" width="320" height="483"/>
+                </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="wordWrap" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tFR-wX-IcB" userLabel="questionLabel">
                     <rect key="frame" x="8" y="19" width="304" height="84"/>
                     <color key="backgroundColor" red="0.80000001192092896" green="0.40000000596046448" blue="1" alpha="0.76000000000000001" colorSpace="calibratedRGB"/>
@@ -97,4 +100,7 @@
             <point key="canvasLocation" x="227" y="762"/>
         </view>
     </objects>
+    <resources>
+        <image name="fresh-spring-background.jpg" width="615" height="467"/>
+    </resources>
 </document>

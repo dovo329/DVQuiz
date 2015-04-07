@@ -1,13 +1,12 @@
 //
 //  AppDelegate.m
-//  Quiz2
+//  DVQuiz
 //
 //  Created by Douglas Voss on 3/20/15.
-//  Copyright (c) 2015 Big Nerd Ranch. All rights reserved.
 //
 
 #import "AppDelegate.h"
-#import "BNRQuizViewController.h"
+#import "QuizViewController.h"
 #import "QuizOverViewController.h"
 #import "DVQuizQuestion.h"
 #import "QandADataBase.h"
@@ -31,7 +30,8 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    BNRQuizViewController *quizVC = [[BNRQuizViewController alloc] init];
+    QuizViewController *quizVC = [[QuizViewController alloc] init];
+    //add background
     
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:quizVC];
     

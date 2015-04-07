@@ -1,11 +1,9 @@
 //
-//  BNRQuizViewController.m
+//  QuizViewController.m
 //  DVQuiz
 //
-//  Created by Douglas Voss on 3/20/15.
-//
 
-#import "BNRQuizViewController.h"
+#import "QuizViewController.h"
 #import "QuizOverViewController.h"
 #import "DVQuizQuestion.h"
 #import "QandADataBase.h"
@@ -15,7 +13,7 @@
 enum subjectEnumType {geography, science, trick};
 
 
-@interface BNRQuizViewController ()
+@interface QuizViewController ()
 {
     SystemSoundID _buzzSound;
     SystemSoundID _yaySound;
@@ -69,7 +67,12 @@ struct trackedQuestionStruct
 @end
 
 
-@implementation BNRQuizViewController
+@implementation QuizViewController
+
+-(NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
 
 bool alreadyAsked[3][3];
 

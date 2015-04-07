@@ -3,7 +3,6 @@
 //  DVQuiz
 //
 //  Created by Douglas Voss on 3/31/15.
-//  Copyright (c) 2015 Big Nerd Ranch. All rights reserved.
 //
 
 #import "QuizOverViewController.h"
@@ -15,6 +14,11 @@
 @end
 
 @implementation QuizOverViewController
+
+-(NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
