@@ -32,7 +32,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     QuizViewController *quizVC = [[QuizViewController alloc] init];
-    //QuizOverViewController *quizOverVC = [[QuizOverViewController alloc] init];
+    QuizOverViewController *quizOverVC = [[QuizOverViewController alloc] init];
     //add background
     
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:quizVC];

@@ -573,8 +573,9 @@ bool alreadyAsked[3][4];
             NSLog(@"new random selection is alreadyAsked[%d][%d]==%d", subjectType, randomIdInt, alreadyAsked[subjectType][randomIdInt]);
         }
        
-        subjectType = 2;
-        randomId = [NSNumber numberWithInt:0];
+        //debug force type and id for a long question to test long question handling
+        //subjectType = 2;
+        //randomId = [NSNumber numberWithInt:0];
         
         Firebase *dbRef;
         switch (subjectType)

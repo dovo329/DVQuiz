@@ -61,7 +61,7 @@
 }
 
 
-- (void)startOverButtonHandler
+- (void)startOverButtonHandler:(UIButton *)sender
 {
     self.scoreLabel.text = @"Please dismiss me.";
     [self.navigationController popToRootViewControllerAnimated:true];
@@ -91,15 +91,9 @@
     self.scoreLabel.numberOfLines = 0;
     
     
-    _startOverButton = [CoolButton buttonWithType:UIButtonTypeCustom];
-    [self.startOverButton addTarget:self
-                        action:@selector(startOverButtonHandler)
-              forControlEvents:UIControlEventTouchUpInside];
-    [self.startOverButton setTitle:@"Start Over" forState:UIControlStateNormal];
-    [self.startOverButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.startOverButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-
     
+    _startOverButton = [CoolButton makeCoolButtonWithHandler:self selector:@selector(startOverButtonHandler:) text:@"Start Over" color:[UIColor brownColor]];
+
     NSLog(@"self.answeredRight=%d", self.answeredRight);
     NSLog(@"self.answeredTotal=%d", self.answeredTotal);
 

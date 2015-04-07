@@ -57,13 +57,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "DVQuiz/QuizOverViewController.m"
-            timestampString = "450143024.972825"
+            filePath = "DVQuiz/QuizViewController.m"
+            timestampString = "450143786.391572"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
-            landmarkName = "-viewDidLoad"
+            startingLineNumber = "595"
+            endingLineNumber = "595"
+            landmarkName = "-queryRandomQuestion"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -73,13 +73,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "DVQuiz/QuizViewController.m"
-            timestampString = "450143301.542389"
+            filePath = "DVQuiz/QuizOverViewController.m"
+            timestampString = "450143635.440677"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "594"
-            endingLineNumber = "594"
-            landmarkName = "-queryRandomQuestion"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
+            landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
