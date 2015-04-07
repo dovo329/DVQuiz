@@ -78,15 +78,14 @@ struct trackedQuestionStruct
     int statusBarOffsetInPoints = 20.0;
     int standardRectLeftOffset = self.view.frame.size.width/16.0;
     int standardRectWidth = self.view.frame.size.width*(14.0/16.0);
-    int standardRectHeight = self.view.frame.size.height*(1.0/16.0);
-    int standardInterRectSpacing = self.view.frame.size.height*(2.0/128.0);
+    int standardRectHeight = (self.view.frame.size.height-statusBarOffsetInPoints)*(1.0/16.0);
     
     int currentX = standardRectLeftOffset;
     int currentY = statusBarOffsetInPoints;
     
     self.questionLabel.frame = CGRectMake(currentX, currentY, standardRectWidth, standardRectHeight*3.0);
     
-    currentY += (standardRectHeight*3.0) + standardInterRectSpacing;
+    currentY += (standardRectHeight*3.0);
     
     //[self printFrame:self.questionLabel.frame];
     
@@ -98,19 +97,19 @@ struct trackedQuestionStruct
     
     self.timerLabel.frame = CGRectMake(currentX, currentY, standardRectWidth/3.0, standardRectHeight);
     currentX = standardRectLeftOffset;
-    currentY += standardRectHeight + standardInterRectSpacing;
+    currentY += standardRectHeight;
     
-    self.answerAButton.frame = CGRectMake(currentX, currentY, standardRectWidth, standardRectHeight*2.0);
-    currentY += (2.0*standardRectHeight) + standardInterRectSpacing;
+    self.answerAButton.frame = CGRectMake(currentX, currentY, standardRectWidth, standardRectHeight*3.0);
+    currentY += (3.0*standardRectHeight);
     
-    self.answerBButton.frame = CGRectMake(currentX, currentY, standardRectWidth, standardRectHeight*2.0);
-    currentY += (2.0*standardRectHeight) + standardInterRectSpacing;
+    self.answerBButton.frame = CGRectMake(currentX, currentY, standardRectWidth, standardRectHeight*3.0);
+    currentY += (3.0*standardRectHeight);
     
-    self.answerCButton.frame = CGRectMake(currentX, currentY, standardRectWidth, standardRectHeight*2.0);
-    currentY += (2.0*standardRectHeight) + standardInterRectSpacing;
+    self.answerCButton.frame = CGRectMake(currentX, currentY, standardRectWidth, standardRectHeight*3.0);
+    currentY += (3.0*standardRectHeight);
     
-    self.answerDButton.frame = CGRectMake(currentX, currentY, standardRectWidth, standardRectHeight*2.0);
-    currentY += (2.0*standardRectHeight) + standardInterRectSpacing;
+    self.answerDButton.frame = CGRectMake(currentX, currentY, standardRectWidth, standardRectHeight*3.0);
+    currentY += (3.0*standardRectHeight);
     
     [self.questionLabel setNeedsDisplay];
     [self.statusLabel setNeedsDisplay];
