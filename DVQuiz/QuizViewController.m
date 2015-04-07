@@ -74,6 +74,15 @@ struct trackedQuestionStruct
     NSLog(@"frame origin.x=%f origin.y=%f size.width=%f, size.height=%f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
 }*/
 
+- (NSString *)truncateString:(NSString *)stringToTruncate
+{
+    if ([stringToTruncate length] > 76)
+        stringToTruncate = [[stringToTruncate substringToIndex:76] stringByAppendingString:@"..."];
+    
+    return  stringToTruncate;
+}
+
+
 - (void)redoFrames
 {
     int statusBarOffsetInPoints = 20.0;
@@ -203,13 +212,16 @@ struct trackedQuestionStruct
     button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     button.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     
+    UIEdgeInsets titleInsets = UIEdgeInsetsMake(0.0, 20.0, 0.0, 20.0);
+    button.titleEdgeInsets = titleInsets;
+    
     return button;
 }
 
 
 - (void)handleAnswer:(int)answerIndex
 {
-    if (!self.stallFlag) {
+    if (!self.stallFlag && self.randomDVQuizQuestion) {
         NSLog(@"Not stalling for answerIndex %d", answerIndex);
         if (self.questionTimer)
         {
@@ -340,12 +352,12 @@ struct trackedQuestionStruct
     }
 }
 
-bool alreadyAsked[3][3];
+bool alreadyAsked[3][4];
 
 - (void)resetAlreadyAsked
 {
     for (int r=0; r<3; r++) {
-        for (int c=0; c<3; c++) {
+        for (int c=0; c<4; c++) {
             alreadyAsked[r][c] = false;
         }
     }
@@ -457,11 +469,10 @@ bool alreadyAsked[3][3];
 
         self.questionLabel.text = quizQuestion.question;
         
-        [self.answerAButton setTitle:[NSString stringWithFormat:@"A. %@", quizQuestion.answerA ] forState:UIControlStateNormal];
-        [self.answerBButton setTitle:[NSString stringWithFormat:@"B. %@", quizQuestion.answerB ] forState:UIControlStateNormal];
-        [self.answerCButton setTitle:[NSString stringWithFormat:@"C. %@", quizQuestion.answerC ] forState:UIControlStateNormal];
-        [self.answerDButton setTitle:[NSString stringWithFormat:@"D. %@", quizQuestion.answerD ] forState:UIControlStateNormal];
-        
+        [self.answerAButton setTitle:[NSString stringWithFormat:@"A. %@", [self truncateString:quizQuestion.answerA]] forState:UIControlStateNormal];
+        [self.answerBButton setTitle:[NSString stringWithFormat:@"B. %@", [self truncateString:quizQuestion.answerB]] forState:UIControlStateNormal];
+        [self.answerCButton setTitle:[NSString stringWithFormat:@"C. %@", [self truncateString:quizQuestion.answerC]] forState:UIControlStateNormal];
+        [self.answerDButton setTitle:[NSString stringWithFormat:@"D. %@", [self truncateString:quizQuestion.answerD]] forState:UIControlStateNormal];
         
         [self displayScore];
         self.timerLabel.text = [NSString stringWithFormat:@"%d sec", _questionTimerLeft];
@@ -559,9 +570,10 @@ bool alreadyAsked[3][3];
 {
     self.randomDVQuizQuestion = nil;
     enum subjectEnumType subjectType = ((int)(arc4random()%3));
-    int randomIdInt = ((int)(arc4random() % 3));
+    int randomIdInt = ((int)(arc4random() % 4));
     NSNumber *randomId = [NSNumber numberWithInt:randomIdInt];
-
+    
+    
     NSLog(@"totalQuestionsAsked = %d", self.answeredTotal);
     [self printAlreadyAsked];
     
@@ -579,7 +591,7 @@ bool alreadyAsked[3][3];
             NSLog(@"random selection was already asked for alreadyAsked[%d][%d]==%d", subjectType, randomIdInt, alreadyAsked[subjectType][randomIdInt]);
             [self printAlreadyAsked];
             randomIdInt++;
-            if (randomIdInt >= 3) {
+            if (randomIdInt >= 4) {
                 subjectType++;
                 if (subjectType >= 3) {
                     subjectType = 0;
@@ -589,6 +601,9 @@ bool alreadyAsked[3][3];
             randomId = [NSNumber numberWithInt:randomIdInt];
             NSLog(@"new random selection is alreadyAsked[%d][%d]==%d", subjectType, randomIdInt, alreadyAsked[subjectType][randomIdInt]);
         }
+       
+        subjectType = 2;
+        randomId = [NSNumber numberWithInt:0];
         
         Firebase *dbRef;
         switch (subjectType)
@@ -602,15 +617,19 @@ bool alreadyAsked[3][3];
         void(^dbBlock)(FDataSnapshot *snapshot);
         dbBlock = ^void(FDataSnapshot *snapshot) {
             self.randomDVQuizQuestion = nil;
-            self.randomDVQuizQuestion = [[DVQuizQuestion alloc]     init:snapshot.value[@"question"]
-                                                                 answerA:snapshot.value[@"answerA"]
-                                                                 answerB:snapshot.value[@"answerB"]
-                                                                 answerC:snapshot.value[@"answerC"]
-                                                                 answerD:snapshot.value[@"answerD"]
-                                                            correctIndex:[snapshot.value[@"correctIndex"] integerValue]];
+            self.randomDVQuizQuestion =
+            [[DVQuizQuestion alloc]
+                init:snapshot.value[@"question"]
+             answerA:snapshot.value[@"answerA"]
+             answerB:snapshot.value[@"answerB"]
+             answerC:snapshot.value[@"answerC"]
+             answerD:snapshot.value[@"answerD"]
+        correctIndex:[snapshot.value[@"correctIndex"] integerValue]];
+            
             //NSLog(@"queriedRandomQuizQuestion == %@", self.randomDVQuizQuestion);
             [self displayCurrentQuestion];
         };
+        
         [[
          [dbRef queryOrderedByChild:@"id"]
          queryEqualToValue:randomId]
