@@ -11,6 +11,7 @@
 #import "DVQuizQuestion.h"
 #import "QandADataBase.h"
 
+
 @interface AppDelegate ()
 
 @end
@@ -31,6 +32,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     QuizViewController *quizVC = [[QuizViewController alloc] init];
+    //QuizOverViewController *quizOverVC = [[QuizOverViewController alloc] init];
     //add background
     
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:quizVC];
@@ -38,10 +40,11 @@
     [navController setNavigationBarHidden:YES animated:NO];
     
     self.window.rootViewController = navController;
+    //self.window.rootViewController = quizOverVC;
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
-    [quizVC displayCurrentQuestion];
+    //[quizVC displayCurrentQuestion];
     
     return YES;
 }
@@ -66,6 +69,22 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+@end
+
+
+// make it so the navigation controller doesn't mess up the upside down rotation
+@implementation UINavigationController (RotationFix)
+
+-(NSUInteger)supportedInterfaceOrientations
+{
+    return [self.topViewController supportedInterfaceOrientations];
+}
+
+-(BOOL)shouldAutorotate
+{
+    return YES;
 }
 
 @end

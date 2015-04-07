@@ -23,17 +23,16 @@ enum subjectEnumType {geography, science, trick};
 @property (nonatomic) int answeredTotal;
 @property (nonatomic) int maxQuestions;
 
-@property (nonatomic, weak) IBOutlet UILabel *questionLabel;
-@property (nonatomic, weak) IBOutlet UILabel *statusLabel;
-@property (nonatomic, weak) IBOutlet UILabel *scoreLabel;
+@property (nonatomic) IBOutlet UILabel *questionLabel;
+@property (nonatomic) IBOutlet UILabel *statusLabel;
+@property (nonatomic) IBOutlet UILabel *scoreLabel;
+@property (nonatomic) IBOutlet UILabel *timerLabel;
 
 
 @property(retain) IBOutlet UIButton *answerAButton;
 @property(retain) IBOutlet UIButton *answerBButton;
 @property(retain) IBOutlet UIButton *answerCButton;
 @property(retain) IBOutlet UIButton *answerDButton;
-
-@property (nonatomic, weak) IBOutlet UILabel *timerLabel;
 
 @property (nonatomic) NSTimer *questionTimer;
 @property (nonatomic) int questionTimerLeft;
@@ -69,9 +68,260 @@ struct trackedQuestionStruct
 
 @implementation QuizViewController
 
+/*- (void)printFrame:(CGRect)frame
+{
+    NSLog(@"frame origin.x=%f origin.y=%f size.width=%f, size.height=%f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
+}*/
+
+- (void)redoFrames
+{
+    int statusBarOffsetInPoints = 20.0;
+    int standardRectLeftOffset = self.view.frame.size.width/16.0;
+    int standardRectWidth = self.view.frame.size.width*(14.0/16.0);
+    int standardRectHeight = self.view.frame.size.height*(1.0/16.0);
+    int standardInterRectSpacing = self.view.frame.size.height*(2.0/128.0);
+    
+    int currentX = standardRectLeftOffset;
+    int currentY = statusBarOffsetInPoints;
+    
+    self.questionLabel.frame = CGRectMake(currentX, currentY, standardRectWidth, standardRectHeight*3.0);
+    
+    currentY += (standardRectHeight*3.0) + standardInterRectSpacing;
+    
+    //[self printFrame:self.questionLabel.frame];
+    
+    self.statusLabel.frame = CGRectMake(currentX, currentY, standardRectWidth/3.0, standardRectHeight);
+    currentX += standardRectWidth/3.0;
+
+    self.scoreLabel.frame = CGRectMake(currentX, currentY, standardRectWidth/3.0, standardRectHeight);
+    currentX += standardRectWidth/3.0;
+    
+    self.timerLabel.frame = CGRectMake(currentX, currentY, standardRectWidth/3.0, standardRectHeight);
+    currentX = standardRectLeftOffset;
+    currentY += standardRectHeight + standardInterRectSpacing;
+    
+    self.answerAButton.frame = CGRectMake(currentX, currentY, standardRectWidth, standardRectHeight*2.0);
+    currentY += (2.0*standardRectHeight) + standardInterRectSpacing;
+    
+    self.answerBButton.frame = CGRectMake(currentX, currentY, standardRectWidth, standardRectHeight*2.0);
+    currentY += (2.0*standardRectHeight) + standardInterRectSpacing;
+    
+    self.answerCButton.frame = CGRectMake(currentX, currentY, standardRectWidth, standardRectHeight*2.0);
+    currentY += (2.0*standardRectHeight) + standardInterRectSpacing;
+    
+    self.answerDButton.frame = CGRectMake(currentX, currentY, standardRectWidth, standardRectHeight*2.0);
+    currentY += (2.0*standardRectHeight) + standardInterRectSpacing;
+    
+    [self.questionLabel setNeedsDisplay];
+    [self.statusLabel setNeedsDisplay];
+    [self.scoreLabel setNeedsDisplay];
+    [self.timerLabel setNeedsDisplay];
+    [self.answerAButton setNeedsDisplay];
+    [self.answerBButton setNeedsDisplay];
+    [self.answerCButton setNeedsDisplay];
+    [self.answerDButton setNeedsDisplay];
+
+}
+
+
 -(NSUInteger)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskAll;
+}
+
+
+-(void)OrientationDidChange:(NSNotification*)notification
+{
+    UIDeviceOrientation Orientation=[[UIDevice currentDevice]orientation];
+    
+    [self redoFrames];
+    NSLog(@"Orientation changed!");
+    
+    if(Orientation==UIDeviceOrientationLandscapeLeft || Orientation==UIDeviceOrientationLandscapeRight)
+    {
+    }
+    else if(Orientation==UIDeviceOrientationPortrait)
+    {
+    }
+}
+
+
+- (UILabel *)makeLabelWithText:(NSString *)text backgroundColor:(UIColor *)backgroundColor
+{
+    UILabel *label = [[UILabel alloc] init];
+    
+    label.textColor = [UIColor blackColor];
+    label.textAlignment = NSTextAlignmentCenter;  //(for iOS 6.0)
+    label.backgroundColor = backgroundColor;
+    label.lineBreakMode = NSLineBreakByWordWrapping;
+    label.numberOfLines = 0;
+    
+    return label;
+}
+
+
+- (UIButton *)makeButtonWithHandler:(SEL)selector text:(NSString *)text backgroundColor:(UIColor *)backgroundColor
+{
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    /*[button addTarget:self
+               action:@selector(selector)
+     forControlEvents:UIControlEventTouchUpInside];*/
+    [button setTitle:text forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    [button setBackgroundColor:backgroundColor];
+    button.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    button.contentVerticalAlignment = UIControlContentVerticalAlignmentTop;
+    
+    return button;
+}
+
+
+- (void)handleAnswer:(int)answerIndex
+{
+    if (!self.stallFlag) {
+        NSLog(@"Not stalling for answerIndex %d", answerIndex);
+        if (self.questionTimer)
+        {
+            [self.questionTimer invalidate];
+            self.questionTimer = nil;
+        }
+        
+        DVQuizQuestion *quizQuestion = self.randomDVQuizQuestion;
+        if (quizQuestion.correctIndex==answerIndex)
+        {
+            self.answeredRight++;
+            self.statusLabel.text = @"Correct!";
+            AudioServicesPlaySystemSound(_yaySound);
+        } else {
+            self.statusLabel.text = @"Wrong!";
+            AudioServicesPlaySystemSound(_buzzSound);
+        }
+        
+        self.answeredTotal++;
+        [self displayScore:self.answeredRight total:(self.answeredTotal)];
+        
+        [self stallForTime:1.0];
+    } else {
+        NSLog(@"Stalling");
+    }
+}
+
+- (void)answerAHandler:(UIButton *)sender
+{
+    [self handleAnswer:0];
+}
+
+- (void)answerBHandler:(UIButton *)sender
+{
+    [self handleAnswer:1];
+}
+
+- (void)answerCHandler:(UIButton *)sender
+{
+    [self handleAnswer:2];
+}
+
+- (void)answerDHandler:(UIButton *)sender
+{
+    [self handleAnswer:3];
+}
+
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    if (self) {
+        _questionLabel = [self makeLabelWithText:@"Blank Question" backgroundColor:[UIColor redColor]];
+        _statusLabel = [self makeLabelWithText:@"Blank Status" backgroundColor:[UIColor orangeColor]];
+        _scoreLabel = [self makeLabelWithText:@"Blank Score" backgroundColor:[UIColor yellowColor]];
+        _timerLabel = [self makeLabelWithText:@"Blank Timer" backgroundColor:[UIColor greenColor]];
+        
+        _answerAButton = [self makeButtonWithHandler:@selector(answerAHandler:) text:@"Blank AnswerA" backgroundColor:[UIColor yellowColor]];
+        [_answerAButton addTarget:self
+                   action:@selector(answerAHandler:)
+                 forControlEvents:UIControlEventTouchUpInside];
+        _answerBButton = [self makeButtonWithHandler:@selector(answerBHandler:) text:@"Blank AnswerB" backgroundColor:[UIColor greenColor]];
+        [_answerBButton addTarget:self
+                   action:@selector(answerBHandler:)
+                 forControlEvents:UIControlEventTouchUpInside];
+        _answerCButton = [self makeButtonWithHandler:@selector(answerCHandler:) text:@"Blank AnswerC" backgroundColor:[UIColor blueColor]];
+        [_answerCButton addTarget:self
+                           action:@selector(answerCHandler:)
+                 forControlEvents:UIControlEventTouchUpInside];
+        _answerDButton = [self makeButtonWithHandler:@selector(answerDHandler:) text:@"Blank AnswerD" backgroundColor:[UIColor purpleColor]];
+        [_answerDButton addTarget:self
+                           action:@selector(answerDHandler:)
+                 forControlEvents:UIControlEventTouchUpInside];
+
+        [self.view addSubview:self.questionLabel];
+        [self.view addSubview:self.statusLabel];
+        [self.view addSubview:self.scoreLabel];
+        [self.view addSubview:self.timerLabel];
+        [self.view addSubview:self.answerAButton];
+        [self.view addSubview:self.answerBButton];
+        [self.view addSubview:self.answerCButton];
+        [self.view addSubview:self.answerDButton];
+        
+        [self redoFrames];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
+        
+        
+        NSString *buzzSoundPath = [[NSBundle mainBundle]
+                                   pathForResource:@"buzz" ofType:@"wav"];
+        NSURL *buzzSoundURL = [NSURL fileURLWithPath:buzzSoundPath];
+        AudioServicesCreateSystemSoundID((__bridge CFURLRef)buzzSoundURL, &_buzzSound);
+        
+        NSString *yaySoundPath = [[NSBundle mainBundle]
+                                  pathForResource:@"yay" ofType:@"wav"];
+        NSURL *yaySoundURL = [NSURL fileURLWithPath:yaySoundPath];
+        AudioServicesCreateSystemSoundID((__bridge CFURLRef)yaySoundURL, &_yaySound);
+        
+        _answeredRight = 0;
+        _answeredTotal = 0;
+        _maxQuestions = 10;
+        //_currentQuestionIndex = 0;
+        //self.quizQuestions = [NSMutableArray array];
+        
+        
+        /*NSArray *QandAFromDataBase = [QandADataBase database].DVQuizQuestionInfos;
+         for (QandADataBase *info in QandAFromDataBase) {
+         //NSLog(@"%@", info);
+         [self.quizQuestions addObject:info];
+         }*/
+        
+        _geographyRef = [[Firebase alloc] initWithUrl:@"https://dazzling-fire-8210.firebaseio.com/subjects/Geography"];
+        _scienceRef = [[Firebase alloc] initWithUrl:@"https://dazzling-fire-8210.firebaseio.com/subjects/Science"];
+        _trickRef = [[Firebase alloc] initWithUrl:@"https://dazzling-fire-8210.firebaseio.com/subjects/Trick"];
+        
+        /*
+         _askedQuestionIdPerSubject = [[NSMutableArray alloc] initWithCapacity:3];
+         _askedQuestionId = [[NSMutableArray alloc] init];
+         */
+        [self resetAlreadyAsked];
+        
+        //DVQuizQuestion *testQuestion = [self getRandomQuestion];
+        
+        _questionTimerLeft=5;
+        if (_questionTimer)
+        {
+            [_questionTimer invalidate];
+            _questionTimer = nil;
+        }
+        _questionTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                          target:self
+                                                        selector:@selector(questionTimerHandler)
+                                                        userInfo:nil
+                                                         repeats:YES];
+        _stallFlag = false;
+        if (_stallTimer)
+        {
+            [_stallTimer invalidate];
+            _stallTimer = nil;
+        }
+    }
 }
 
 bool alreadyAsked[3][3];
@@ -115,57 +365,6 @@ bool alreadyAsked[3][3];
         self.scoreLabel.text = [NSString stringWithFormat:@"0/0: 0%%"];
     }
 }
-
-- (void)handleAnswer:(int)answerIndex
-{
-    if (!self.stallFlag) {
-        NSLog(@"Not stalling for answerIndex %d", answerIndex);
-        if (self.questionTimer)
-        {
-            [self.questionTimer invalidate];
-            self.questionTimer = nil;
-        }
-        
-        DVQuizQuestion *quizQuestion = self.randomDVQuizQuestion;
-        if (quizQuestion.correctIndex==answerIndex)
-        {
-            self.answeredRight++;
-            self.statusLabel.text = @"A. Correct!";
-            AudioServicesPlaySystemSound(_yaySound);
-        } else {
-            self.statusLabel.text = @"A. Wrong!";
-            AudioServicesPlaySystemSound(_buzzSound);
-        }
-        
-        self.answeredTotal++;
-        [self displayScore:self.answeredRight total:(self.answeredTotal)];
-        
-        [self stallForTime:1.0];
-    } else {
-        NSLog(@"Stalling");
-    }
-}
-
-- (IBAction)answerA:(id)sender
-{
-    [self handleAnswer:0];
-}
-
-- (IBAction)answerB:(id)sender
-{
-    [self handleAnswer:1];
-}
-
-- (IBAction)answerC:(id)sender
-{
-    [self handleAnswer:2];
-}
-
-- (IBAction)answerD:(id)sender
-{
-    [self handleAnswer:3];
-}
-
 
 
 - (void)viewWillAppear:(BOOL)animated
@@ -247,13 +446,6 @@ bool alreadyAsked[3][3];
         [self.answerCButton setTitle:[NSString stringWithFormat:@"C. %@", quizQuestion.answerC ] forState:UIControlStateNormal];
         [self.answerDButton setTitle:[NSString stringWithFormat:@"D. %@", quizQuestion.answerD ] forState:UIControlStateNormal];
         
-        self.questionLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        self.questionLabel.numberOfLines = 0;
-        [self.questionLabel sizeToFit];
-        
-        self.statusLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        self.statusLabel.numberOfLines = 0;
-        [self.statusLabel sizeToFit];
         
         [self displayScore];
         self.timerLabel.text = [NSString stringWithFormat:@"%d sec", _questionTimerLeft];
@@ -264,14 +456,6 @@ bool alreadyAsked[3][3];
         [self.answerBButton setTitle:@"" forState:UIControlStateNormal];
         [self.answerCButton setTitle:@"" forState:UIControlStateNormal];
         [self.answerDButton setTitle:@"" forState:UIControlStateNormal];
-        
-        self.questionLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        self.questionLabel.numberOfLines = 0;
-        [self.questionLabel sizeToFit];
-        
-        self.statusLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        self.statusLabel.numberOfLines = 0;
-        [self.statusLabel sizeToFit];
         
         [self displayScore];
         self.timerLabel.text = @"";
@@ -472,78 +656,6 @@ bool alreadyAsked[3][3];
     NSLog(@"after it is returnQuestion %@", returnQuestion);
     return returnQuestion;
 }*/
-
-
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil
-                         bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    
-    if (self) {
-        NSString *buzzSoundPath = [[NSBundle mainBundle]
-                                pathForResource:@"buzz" ofType:@"wav"];
-        NSURL *buzzSoundURL = [NSURL fileURLWithPath:buzzSoundPath];
-        AudioServicesCreateSystemSoundID((__bridge CFURLRef)buzzSoundURL, &_buzzSound);
-        
-        NSString *yaySoundPath = [[NSBundle mainBundle]
-                                   pathForResource:@"yay" ofType:@"wav"];
-        NSURL *yaySoundURL = [NSURL fileURLWithPath:yaySoundPath];
-        AudioServicesCreateSystemSoundID((__bridge CFURLRef)yaySoundURL, &_yaySound);
-        
-        _answeredRight = 0;
-        _answeredTotal = 0;
-        _maxQuestions = 10;
-        //_currentQuestionIndex = 0;
-        //self.quizQuestions = [NSMutableArray array];
-        
-        
-        /*NSArray *QandAFromDataBase = [QandADataBase database].DVQuizQuestionInfos;
-        for (QandADataBase *info in QandAFromDataBase) {
-            //NSLog(@"%@", info);
-            [self.quizQuestions addObject:info];
-        }*/
-
-        _geographyRef = [[Firebase alloc] initWithUrl:@"https://dazzling-fire-8210.firebaseio.com/subjects/Geography"];
-        _scienceRef = [[Firebase alloc] initWithUrl:@"https://dazzling-fire-8210.firebaseio.com/subjects/Science"];
-        _trickRef = [[Firebase alloc] initWithUrl:@"https://dazzling-fire-8210.firebaseio.com/subjects/Trick"];
-        
-        /*
-        _askedQuestionIdPerSubject = [[NSMutableArray alloc] initWithCapacity:3];
-        _askedQuestionId = [[NSMutableArray alloc] init];
-         */
-        [self resetAlreadyAsked];
-
-        //DVQuizQuestion *testQuestion = [self getRandomQuestion];
-        
-        self.questionLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        self.questionLabel.numberOfLines = 0;
-        [self.questionLabel sizeToFit];
-        
-        self.statusLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        self.statusLabel.numberOfLines = 0;
-        [self.statusLabel sizeToFit];
-        
-        _questionTimerLeft=5;
-        if (_questionTimer)
-        {
-            [_questionTimer invalidate];
-            _questionTimer = nil;
-        }
-        _questionTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
-                                                          target:self
-                                                        selector:@selector(questionTimerHandler)
-                                                        userInfo:nil
-                                                         repeats:YES];
-        _stallFlag = false;
-        if (_stallTimer)
-        {
-            [_stallTimer invalidate];
-            _stallTimer = nil;
-        }
-    }
-    
-    return self;
-}
 
 
 @end

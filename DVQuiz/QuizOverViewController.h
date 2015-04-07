@@ -12,6 +12,8 @@
 @property (nonatomic, readwrite) int answeredRight;
 @property (nonatomic, readwrite) int answeredTotal;
 
+@property (nonatomic, strong) IBOutlet UIButton * startOverButton;
+
 -(NSUInteger)supportedInterfaceOrientations;
 
 @end

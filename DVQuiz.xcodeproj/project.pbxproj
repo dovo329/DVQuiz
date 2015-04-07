@@ -20,13 +20,10 @@
 		A54841BC1ACCC87100053648 /* yay.wav in Resources */ = {isa = PBXBuildFile; fileRef = A54841BB1ACCC87100053648 /* yay.wav */; };
 		A54FCB991AC3A1CF00640E66 /* DVQuizQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = A54FCB981AC3A1CF00640E66 /* DVQuizQuestion.m */; };
 		A550627B1ACB644D0061392F /* QuizOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A55062791ACB644D0061392F /* QuizOverViewController.m */; };
-		A550627C1ACB644D0061392F /* QuizOverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A550627A1ACB644D0061392F /* QuizOverViewController.xib */; };
-		A552C4D21AD0F20700929A9E /* fresh-spring-background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A552C4D11AD0F20700929A9E /* fresh-spring-background.jpg */; };
 		A5689BF61ABD1E3200299A4C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A5689BF51ABD1E3200299A4C /* main.m */; };
 		A5689BF91ABD1E3200299A4C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A5689BF81ABD1E3200299A4C /* AppDelegate.m */; };
 		A5689C011ABD1E3200299A4C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5689C001ABD1E3200299A4C /* Images.xcassets */; };
 		A5689C1C1ABD244700299A4C /* QuizViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5689C1A1ABD244700299A4C /* QuizViewController.m */; };
-		A5689C1D1ABD244700299A4C /* QuizViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5689C1B1ABD244700299A4C /* QuizViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,8 +53,6 @@
 		A54FCB981AC3A1CF00640E66 /* DVQuizQuestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVQuizQuestion.m; sourceTree = "<group>"; };
 		A55062781ACB644D0061392F /* QuizOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuizOverViewController.h; sourceTree = "<group>"; };
 		A55062791ACB644D0061392F /* QuizOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuizOverViewController.m; sourceTree = "<group>"; };
-		A550627A1ACB644D0061392F /* QuizOverViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuizOverViewController.xib; sourceTree = "<group>"; };
-		A552C4D11AD0F20700929A9E /* fresh-spring-background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "fresh-spring-background.jpg"; sourceTree = "<group>"; };
 		A5689BF01ABD1E3200299A4C /* DVQuiz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DVQuiz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5689BF41ABD1E3200299A4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A5689BF51ABD1E3200299A4C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -67,7 +62,6 @@
 		A5689C091ABD1E3200299A4C /* DVQuizTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DVQuizTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5689C191ABD244700299A4C /* QuizViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuizViewController.h; sourceTree = "<group>"; };
 		A5689C1A1ABD244700299A4C /* QuizViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuizViewController.m; sourceTree = "<group>"; };
-		A5689C1B1ABD244700299A4C /* QuizViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuizViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,7 +116,6 @@
 		A5689BF21ABD1E3200299A4C /* DVQuiz */ = {
 			isa = PBXGroup;
 			children = (
-				A552C4D11AD0F20700929A9E /* fresh-spring-background.jpg */,
 				A54841BB1ACCC87100053648 /* yay.wav */,
 				A54841B91ACCC50400053648 /* buzz.wav */,
 				A54841B41ACCA8ED00053648 /* QandA.sqlite3 */,
@@ -130,10 +123,8 @@
 				A5689BF81ABD1E3200299A4C /* AppDelegate.m */,
 				A55062781ACB644D0061392F /* QuizOverViewController.h */,
 				A55062791ACB644D0061392F /* QuizOverViewController.m */,
-				A550627A1ACB644D0061392F /* QuizOverViewController.xib */,
 				A5689C191ABD244700299A4C /* QuizViewController.h */,
 				A5689C1A1ABD244700299A4C /* QuizViewController.m */,
-				A5689C1B1ABD244700299A4C /* QuizViewController.xib */,
 				A54FCB971AC3A1CF00640E66 /* DVQuizQuestion.h */,
 				A54FCB981AC3A1CF00640E66 /* DVQuizQuestion.m */,
 				A5689C001ABD1E3200299A4C /* Images.xcassets */,
@@ -234,12 +225,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				A54841BC1ACCC87100053648 /* yay.wav in Resources */,
-				A5689C1D1ABD244700299A4C /* QuizViewController.xib in Resources */,
 				A54841B51ACCA8ED00053648 /* QandA.sqlite3 in Resources */,
 				A54841BA1ACCC50400053648 /* buzz.wav in Resources */,
 				A5689C011ABD1E3200299A4C /* Images.xcassets in Resources */,
-				A550627C1ACB644D0061392F /* QuizOverViewController.xib in Resources */,
-				A552C4D21AD0F20700929A9E /* fresh-spring-background.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
