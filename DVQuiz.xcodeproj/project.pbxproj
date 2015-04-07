@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A517A6081AD46AC900958861 /* CoolButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A517A6041AD46AC900958861 /* CoolButton.m */; };
+		A517A6091AD46AC900958861 /* Common.m in Sources */ = {isa = PBXBuildFile; fileRef = A517A6051AD46AC900958861 /* Common.m */; };
 		A53696281ACE097E00AB6D06 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A53696271ACE097E00AB6D06 /* libicucore.dylib */; };
 		A536962A1ACE098800AB6D06 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A53696291ACE098800AB6D06 /* libc++.dylib */; };
 		A536962C1ACE099100AB6D06 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A536962B1ACE099100AB6D06 /* CFNetwork.framework */; };
@@ -37,6 +39,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A517A6041AD46AC900958861 /* CoolButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoolButton.m; sourceTree = "<group>"; };
+		A517A6051AD46AC900958861 /* Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Common.m; sourceTree = "<group>"; };
+		A517A6061AD46AC900958861 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		A517A6071AD46AC900958861 /* CoolButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoolButton.h; sourceTree = "<group>"; };
 		A53696251ACE083A00AB6D06 /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Firebase.framework; path = DVQuiz/Firebase.framework; sourceTree = "<group>"; };
 		A53696271ACE097E00AB6D06 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		A53696291ACE098800AB6D06 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
@@ -116,6 +122,10 @@
 		A5689BF21ABD1E3200299A4C /* DVQuiz */ = {
 			isa = PBXGroup;
 			children = (
+				A517A6041AD46AC900958861 /* CoolButton.m */,
+				A517A6051AD46AC900958861 /* Common.m */,
+				A517A6061AD46AC900958861 /* Common.h */,
+				A517A6071AD46AC900958861 /* CoolButton.h */,
 				A54841BB1ACCC87100053648 /* yay.wav */,
 				A54841B91ACCC50400053648 /* buzz.wav */,
 				A54841B41ACCA8ED00053648 /* QandA.sqlite3 */,
@@ -245,9 +255,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A517A6081AD46AC900958861 /* CoolButton.m in Sources */,
 				A550627B1ACB644D0061392F /* QuizOverViewController.m in Sources */,
 				A5689C1C1ABD244700299A4C /* QuizViewController.m in Sources */,
 				A5689BF91ABD1E3200299A4C /* AppDelegate.m in Sources */,
+				A517A6091AD46AC900958861 /* Common.m in Sources */,
 				A54FCB991AC3A1CF00640E66 /* DVQuizQuestion.m in Sources */,
 				A54841B81ACCA93200053648 /* QandADataBase.m in Sources */,
 				A5689BF61ABD1E3200299A4C /* main.m in Sources */,

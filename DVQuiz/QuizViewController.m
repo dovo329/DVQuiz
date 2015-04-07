@@ -9,6 +9,7 @@
 #import "QandADataBase.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import <Firebase/Firebase.h>
+#import "CoolButton.h"
 
 enum subjectEnumType {geography, science, trick};
 
@@ -23,16 +24,16 @@ enum subjectEnumType {geography, science, trick};
 @property (nonatomic) int answeredTotal;
 @property (nonatomic) int maxQuestions;
 
-@property (nonatomic) IBOutlet UILabel *questionLabel;
-@property (nonatomic) IBOutlet UILabel *statusLabel;
-@property (nonatomic) IBOutlet UILabel *scoreLabel;
-@property (nonatomic) IBOutlet UILabel *timerLabel;
+@property (nonatomic) UILabel *questionLabel;
+@property (nonatomic) UILabel *statusLabel;
+@property (nonatomic) UILabel *scoreLabel;
+@property (nonatomic) UILabel *timerLabel;
 
 
-@property(retain) IBOutlet UIButton *answerAButton;
-@property(retain) IBOutlet UIButton *answerBButton;
-@property(retain) IBOutlet UIButton *answerCButton;
-@property(retain) IBOutlet UIButton *answerDButton;
+@property(retain) UIButton *answerAButton;
+@property(retain) UIButton *answerBButton;
+@property(retain) UIButton *answerCButton;
+@property(retain) UIButton *answerDButton;
 
 @property (nonatomic) NSTimer *questionTimer;
 @property (nonatomic) int questionTimerLeft;
