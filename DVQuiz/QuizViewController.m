@@ -164,9 +164,9 @@ struct trackedQuestionStruct
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     
-    /*[button addTarget:self
-               action:@selector(selector)
-     forControlEvents:UIControlEventTouchUpInside];*/
+    [button addTarget:self
+               action:selector
+     forControlEvents:UIControlEventTouchUpInside];
     [button setTitle:text forState:UIControlStateNormal];
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
@@ -240,21 +240,9 @@ struct trackedQuestionStruct
         _timerLabel = [self makeLabelWithText:@"Blank Timer" backgroundColor:[UIColor greenColor]];
         
         _answerAButton = [self makeButtonWithHandler:@selector(answerAHandler:) text:@"Blank AnswerA" backgroundColor:[UIColor yellowColor]];
-        [_answerAButton addTarget:self
-                   action:@selector(answerAHandler:)
-                 forControlEvents:UIControlEventTouchUpInside];
         _answerBButton = [self makeButtonWithHandler:@selector(answerBHandler:) text:@"Blank AnswerB" backgroundColor:[UIColor greenColor]];
-        [_answerBButton addTarget:self
-                   action:@selector(answerBHandler:)
-                 forControlEvents:UIControlEventTouchUpInside];
         _answerCButton = [self makeButtonWithHandler:@selector(answerCHandler:) text:@"Blank AnswerC" backgroundColor:[UIColor blueColor]];
-        [_answerCButton addTarget:self
-                           action:@selector(answerCHandler:)
-                 forControlEvents:UIControlEventTouchUpInside];
         _answerDButton = [self makeButtonWithHandler:@selector(answerDHandler:) text:@"Blank AnswerD" backgroundColor:[UIColor purpleColor]];
-        [_answerDButton addTarget:self
-                           action:@selector(answerDHandler:)
-                 forControlEvents:UIControlEventTouchUpInside];
 
         [self.view addSubview:self.questionLabel];
         [self.view addSubview:self.statusLabel];
