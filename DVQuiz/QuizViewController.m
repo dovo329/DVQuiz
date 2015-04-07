@@ -30,10 +30,10 @@ enum subjectEnumType {geography, science, trick};
 @property (nonatomic) UILabel *timerLabel;
 
 
-@property(retain) UIButton *answerAButton;
-@property(retain) UIButton *answerBButton;
-@property(retain) UIButton *answerCButton;
-@property(retain) UIButton *answerDButton;
+@property(retain) CoolButton *answerAButton;
+@property(retain) CoolButton *answerBButton;
+@property(retain) CoolButton *answerCButton;
+@property(retain) CoolButton *answerDButton;
 
 @property (nonatomic) NSTimer *questionTimer;
 @property (nonatomic) int questionTimerLeft;
@@ -178,6 +178,34 @@ struct trackedQuestionStruct
     return button;
 }
 
+- (CoolButton *)makeCoolButtonWithHandler:(SEL)selector text:(NSString *)text color:(UIColor *)color
+{
+    CoolButton *button = [CoolButton buttonWithType:UIButtonTypeCustom];
+    
+    CGFloat hue;
+    CGFloat saturation;
+    CGFloat brightness;
+    CGFloat alpha;
+    
+    [color getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
+    
+    button.hue = hue;
+    button.saturation = saturation;
+    button.brightness = brightness;
+    
+    [button addTarget:self
+               action:selector
+     forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:text forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    button.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    button.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    
+    return button;
+}
+
 
 - (void)handleAnswer:(int)answerIndex
 {
@@ -239,10 +267,10 @@ struct trackedQuestionStruct
         _scoreLabel = [self makeLabelWithText:@"Blank Score" backgroundColor:[UIColor yellowColor]];
         _timerLabel = [self makeLabelWithText:@"Blank Timer" backgroundColor:[UIColor greenColor]];
         
-        _answerAButton = [self makeButtonWithHandler:@selector(answerAHandler:) text:@"Blank AnswerA" backgroundColor:[UIColor yellowColor]];
-        _answerBButton = [self makeButtonWithHandler:@selector(answerBHandler:) text:@"Blank AnswerB" backgroundColor:[UIColor greenColor]];
-        _answerCButton = [self makeButtonWithHandler:@selector(answerCHandler:) text:@"Blank AnswerC" backgroundColor:[UIColor blueColor]];
-        _answerDButton = [self makeButtonWithHandler:@selector(answerDHandler:) text:@"Blank AnswerD" backgroundColor:[UIColor purpleColor]];
+        _answerAButton = [self makeCoolButtonWithHandler:@selector(answerAHandler:) text:@"Blank AnswerA" color:[UIColor yellowColor]];
+        _answerBButton = [self makeCoolButtonWithHandler:@selector(answerBHandler:) text:@"Blank AnswerB" color:[UIColor greenColor]];
+        _answerCButton = [self makeCoolButtonWithHandler:@selector(answerCHandler:) text:@"Blank AnswerC" color:[UIColor blueColor]];
+        _answerDButton = [self makeCoolButtonWithHandler:@selector(answerDHandler:) text:@"Blank AnswerD" color:[UIColor purpleColor]];
 
         [self.view addSubview:self.questionLabel];
         [self.view addSubview:self.statusLabel];
