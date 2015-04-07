@@ -19,17 +19,37 @@
 }
 */
 
--(id) init
++ (id)makeCoolButtonWithHandler:(id)target selector:(SEL)selector text:(NSString *)text color:(UIColor *)color
 {
-    if (self = [super init]) {
-        self.opaque = NO;
-        self.backgroundColor = [UIColor clearColor];
-        _hue = 0.5;
-        _saturation = 0.5;
-        _brightness = 0.5;
-    }
-    return self;
+    CoolButton *button = [CoolButton buttonWithType:UIButtonTypeCustom];
+    
+    CGFloat hue;
+    CGFloat saturation;
+    CGFloat brightness;
+    CGFloat alpha;
+    
+    [color getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
+    
+    button.hue = hue;
+    button.saturation = saturation;
+    button.brightness = brightness;
+    
+    [button addTarget:target
+               action:selector
+     forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:text forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    button.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    button.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    
+    UIEdgeInsets titleInsets = UIEdgeInsetsMake(0.0, 20.0, 0.0, 20.0);
+    button.titleEdgeInsets = titleInsets;
+    
+    return button;
 }
+
 
 - (void)drawRect:(CGRect)rect
 {

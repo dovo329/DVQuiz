@@ -187,36 +187,7 @@ struct trackedQuestionStruct
     return button;
 }
 
-- (CoolButton *)makeCoolButtonWithHandler:(SEL)selector text:(NSString *)text color:(UIColor *)color
-{
-    CoolButton *button = [CoolButton buttonWithType:UIButtonTypeCustom];
-    
-    CGFloat hue;
-    CGFloat saturation;
-    CGFloat brightness;
-    CGFloat alpha;
-    
-    [color getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
-    
-    button.hue = hue;
-    button.saturation = saturation;
-    button.brightness = brightness;
-    
-    [button addTarget:self
-               action:selector
-     forControlEvents:UIControlEventTouchUpInside];
-    [button setTitle:text forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-    button.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    button.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    
-    UIEdgeInsets titleInsets = UIEdgeInsetsMake(0.0, 20.0, 0.0, 20.0);
-    button.titleEdgeInsets = titleInsets;
-    
-    return button;
-}
+
 
 
 - (void)handleAnswer:(int)answerIndex
@@ -279,10 +250,10 @@ struct trackedQuestionStruct
         _scoreLabel = [self makeLabelWithText:@"Blank Score" backgroundColor:[UIColor yellowColor]];
         _timerLabel = [self makeLabelWithText:@"Blank Timer" backgroundColor:[UIColor greenColor]];
         
-        _answerAButton = [self makeCoolButtonWithHandler:@selector(answerAHandler:) text:@"Blank AnswerA" color:[UIColor yellowColor]];
-        _answerBButton = [self makeCoolButtonWithHandler:@selector(answerBHandler:) text:@"Blank AnswerB" color:[UIColor greenColor]];
-        _answerCButton = [self makeCoolButtonWithHandler:@selector(answerCHandler:) text:@"Blank AnswerC" color:[UIColor blueColor]];
-        _answerDButton = [self makeCoolButtonWithHandler:@selector(answerDHandler:) text:@"Blank AnswerD" color:[UIColor purpleColor]];
+        _answerAButton = [CoolButton makeCoolButtonWithHandler:self selector:@selector(answerAHandler:) text:@"Blank AnswerA" color:[UIColor yellowColor]];
+        _answerBButton = [CoolButton makeCoolButtonWithHandler:self selector:@selector(answerBHandler:) text:@"Blank AnswerB" color:[UIColor greenColor]];
+        _answerCButton = [CoolButton makeCoolButtonWithHandler:self selector:@selector(answerCHandler:) text:@"Blank AnswerC" color:[UIColor blueColor]];
+        _answerDButton = [CoolButton makeCoolButtonWithHandler:self selector:@selector(answerDHandler:) text:@"Blank AnswerD" color:[UIColor purpleColor]];
 
         [self.view addSubview:self.questionLabel];
         [self.view addSubview:self.statusLabel];

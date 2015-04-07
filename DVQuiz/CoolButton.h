@@ -14,4 +14,6 @@
 @property (nonatomic, assign, readwrite) CGFloat saturation;
 @property (nonatomic, assign, readwrite) CGFloat brightness;
 
++ (id)makeCoolButtonWithHandler:(id)target selector:(SEL)selector text:(NSString *)text color:(UIColor *)color;
+
 @end

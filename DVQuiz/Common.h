@@ -18,3 +18,4 @@ static inline double radians (double degrees) { return degrees * M_PI/180; }
 CGMutablePathRef createArcPathFromBottomOfRect(CGRect rect, CGFloat arcHeight);
 
 CGMutablePathRef createRoundedRectForRect(CGRect rect, CGFloat radius);
+

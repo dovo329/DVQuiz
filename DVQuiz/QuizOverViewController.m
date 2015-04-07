@@ -6,11 +6,13 @@
 //
 
 #import "QuizOverViewController.h"
+#import "CoolButton.h"
 
 @interface QuizOverViewController ()
 
-@property (nonatomic) IBOutlet UILabel *quizOverLabel;
-@property (nonatomic) IBOutlet UILabel *scoreLabel;
+@property (nonatomic) UILabel *quizOverLabel;
+@property (nonatomic) UILabel *scoreLabel;
+@property (nonatomic) CoolButton * startOverButton;
 
 @end
 
@@ -89,12 +91,11 @@
     self.scoreLabel.numberOfLines = 0;
     
     
-    _startOverButton = [[UIButton alloc] init];
+    _startOverButton = [CoolButton buttonWithType:UIButtonTypeCustom];
     [self.startOverButton addTarget:self
                         action:@selector(startOverButtonHandler)
               forControlEvents:UIControlEventTouchUpInside];
     [self.startOverButton setTitle:@"Start Over" forState:UIControlStateNormal];
-    self.startOverButton.backgroundColor = [UIColor orangeColor];
     [self.startOverButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.startOverButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
 
