@@ -12,7 +12,7 @@
             },
             {
             "id" : 1,
-            "question" : "What is approximate air speed velocity of a West African Swallow (Hirundo domicella), in miles per hour",
+            "question" : "What is the approximate air speed velocity of a West African swallow (Hirundo domicella), in miles per hour",
             "answerA" : "12 miles per hour",
             "answerB" : "24 miles per hour",
             "answerC" : "36 miles per hour",
@@ -27,6 +27,15 @@
             "answerC" : "2 light seconds",
             "answerD" : "499 light seconds",
             "correctIndex" : 3
+            },
+	    {
+	    "id" : 3,
+            "question" : "What are the three elements air is mostly made of?",
+            "answerA" : "Nitrogen, Oxygen, Argon",
+            "answerB" : "Oxygen, Carbon Dioxide, Methane",
+            "answerC" : "Oxygen, Neon, Krypton",
+            "answerD" : "Oxygen, Carbon Dioxide, Nitrogen",
+            "correctIndex" : 0
             }
         ],
         "Trick" : [
@@ -55,6 +64,15 @@
             "answerB" : "Sit in front of a computer and try to program stuff",
             "answerC" : "Stand on your head",
             "answerD" : "Drink a red slurpee",
+            "correctIndex" : 1
+            },
+            {
+            "id" : 3,
+            "question" : "Why?",
+            "answerA" : "Because I said so",
+            "answerB" : "It's far too complicated to explain",
+            "answerC" : "Why what?",
+            "answerD" : "Look it up on the internet",
             "correctIndex" : 1
             }
         ],
@@ -85,6 +103,15 @@
             "answerC" : "Wilmington",
             "answerD" : "Bear",
             "correctIndex" : 0
+            },
+            {
+            "id" : 3,
+            "question" : "How many states are there in Germany?",
+            "answerA" : "17",
+            "answerB" : "12",
+            "answerC" : "16",
+            "answerD" : "14",
+            "correctIndex" : 2
             }       
         ]
     }
