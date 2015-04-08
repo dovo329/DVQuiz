@@ -9,4 +9,9 @@
 
 @interface CoolLabel : UILabel
 
+@property (nonatomic, assign, readwrite) CGFloat roundedRectArcRadius;
+
+- (id)initWithRoundedRectArcRadius:(CGFloat)radius;
+- (id)init;
+
 @end

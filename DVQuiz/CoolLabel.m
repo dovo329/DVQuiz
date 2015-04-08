@@ -6,8 +6,21 @@
 //
 
 #import "CoolLabel.h"
+#import "math.h"
 
 @implementation CoolLabel
+
+- (id)initWithRoundedRectArcRadius:(CGFloat)radius
+{
+    self = [super init];
+    _roundedRectArcRadius = radius;
+    return self;
+}
+
+- (id)init
+{
+    return [self initWithRoundedRectArcRadius:30.0];
+}
 
 
 // Only override drawRect: if you perform custom drawing.
@@ -34,7 +47,23 @@
     myEndPoint.y = rect.origin.y+(rect.size.height/2.0);
     myTopGradient = CGGradientCreateWithColorComponents (myColorspace, topComponents,
                                                          topLocations, topNum_locations);
+    
     CGContextSaveGState(myContext);
+    CGMutablePathRef roundedRectClipPath = CGPathCreateMutable();
+    CGPathMoveToPoint(roundedRectClipPath, NULL, CGRectGetMidX(rect), CGRectGetMinY(rect));
+    CGPathAddArcToPoint(roundedRectClipPath, NULL, CGRectGetMaxX(rect), CGRectGetMinY(rect), CGRectGetMaxX(rect), CGRectGetMaxY(rect), self.roundedRectArcRadius);
+    CGPathAddArcToPoint(roundedRectClipPath, NULL, CGRectGetMaxX(rect), CGRectGetMaxY(rect), CGRectGetMinX(rect), CGRectGetMaxY(rect), self.roundedRectArcRadius);
+    CGPathAddArcToPoint(roundedRectClipPath, NULL, CGRectGetMinX(rect), CGRectGetMaxY(rect), CGRectGetMinX(rect), CGRectGetMinY(rect), self.roundedRectArcRadius);
+    CGPathAddArcToPoint(roundedRectClipPath, NULL, CGRectGetMinX(rect), CGRectGetMinY(rect), CGRectGetMaxX(rect), CGRectGetMinY(rect), self.roundedRectArcRadius);
+//    CGPathAddArc(path, NULL, CGRectGetMidX(rect), CGRectGetMidY(rect), (rect.size.width/2.0), 0, M_PI, 1);
+    CGPathCloseSubpath(roundedRectClipPath);
+/*    CGContextBeginPath(myContext);
+    CGContextAddArc (myContext, rect.origin.x+(rect.size.width/2.0), rect.origin.y+(rect.size.height/2.0), (rect.size.height/2.0), 0,
+                     M_PI, 1);
+    CGContextClosePath (myContext);*/
+    
+    CGContextAddPath(myContext, roundedRectClipPath);
+    CGContextClip (myContext);
     CGContextDrawLinearGradient (myContext, myTopGradient, myStartPoint, myEndPoint, 0);
     CGGradientRelease (myTopGradient);
     CGContextRestoreGState(myContext);
@@ -53,6 +82,8 @@
     myBottomGradient = CGGradientCreateWithColorComponents (myColorspace, bottomComponents,
                                                             bottomLocations, bottomNum_locations);
     CGContextSaveGState(myContext);
+    CGContextAddPath(myContext, roundedRectClipPath);
+    CGContextClip (myContext);
     CGContextDrawLinearGradient (myContext, myBottomGradient, myStartPoint, myEndPoint, 0);
     CGContextRestoreGState(myContext);
 

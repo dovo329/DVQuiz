@@ -72,7 +72,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _quizOverLabel = [[CoolLabel alloc] init];
+    _quizOverLabel = [[CoolLabel alloc] initWithRoundedRectArcRadius:10.0];
     self.quizOverLabel.textColor = [UIColor whiteColor];
     self.quizOverLabel.highlightedTextColor = [UIColor blackColor];
     //self.quizOverLabel.backgroundColor = [UIColor blueColor];
