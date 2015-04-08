@@ -72,9 +72,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"old-board.jpg"]];
-    [self.view addSubview:imgView];
-    [self.view sendSubviewToBack:imgView];
+    UIImage *img = [UIImage imageNamed:@"old-board.jpg"];
+    UIColor * tiledColor = [UIColor colorWithPatternImage:img];
+    self.view.backgroundColor = tiledColor;
+
 
     _quizOverLabel = [[CoolLabel alloc] initWithColor:[UIColor blueColor]];
     self.quizOverLabel.textColor = [UIColor blackColor];

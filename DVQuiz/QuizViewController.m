@@ -247,9 +247,9 @@ struct trackedQuestionStruct
     [super viewDidLoad];
     if (self) {
         
-        UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"brick-wallpaper.jpg"]];
-        [self.view addSubview:imgView];
-        [self.view sendSubviewToBack:imgView];
+        UIImage *img = [UIImage imageNamed:@"brick-wallpaper.jpg"];
+        UIColor * tiledColor = [UIColor colorWithPatternImage:img];
+        self.view.backgroundColor = tiledColor;
         
         //_questionLabel = [self makeLabelWithText:@"Blank Question" backgroundColor:[UIColor redColor]];
         _questionLabel = [[CoolLabel alloc] initWithColor:[UIColor redColor]];
