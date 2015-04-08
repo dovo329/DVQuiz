@@ -39,8 +39,8 @@
     
     [navController setNavigationBarHidden:YES animated:NO];
     
-    self.window.rootViewController = navController;
-    //self.window.rootViewController = quizOverVC;
+    //self.window.rootViewController = navController;
+    self.window.rootViewController = quizOverVC;
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];

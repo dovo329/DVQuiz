@@ -7,10 +7,11 @@
 
 #import "QuizOverViewController.h"
 #import "CoolButton.h"
+#import "CoolLabel.h"
 
 @interface QuizOverViewController ()
 
-@property (nonatomic) UILabel *quizOverLabel;
+@property (nonatomic) CoolLabel *quizOverLabel;
 @property (nonatomic) UILabel *scoreLabel;
 @property (nonatomic) CoolButton * startOverButton;
 
@@ -71,10 +72,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _quizOverLabel = [[UILabel alloc] init];
+    _quizOverLabel = [[CoolLabel alloc] init];
     self.quizOverLabel.textColor = [UIColor whiteColor];
     self.quizOverLabel.highlightedTextColor = [UIColor blackColor];
-    self.quizOverLabel.backgroundColor = [UIColor blueColor];
+    //self.quizOverLabel.backgroundColor = [UIColor blueColor];
     self.quizOverLabel.textAlignment = NSTextAlignmentCenter;  //(for iOS 6.0)
     self.quizOverLabel.text = @"Quiz Over!";
     

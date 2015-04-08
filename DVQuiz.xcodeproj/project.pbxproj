@@ -20,6 +20,7 @@
 		A54841B81ACCA93200053648 /* QandADataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = A54841B71ACCA93200053648 /* QandADataBase.m */; };
 		A54841BA1ACCC50400053648 /* buzz.wav in Resources */ = {isa = PBXBuildFile; fileRef = A54841B91ACCC50400053648 /* buzz.wav */; };
 		A54841BC1ACCC87100053648 /* yay.wav in Resources */ = {isa = PBXBuildFile; fileRef = A54841BB1ACCC87100053648 /* yay.wav */; };
+		A54CF6BD1AD4BA470036706C /* CoolLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A54CF6BC1AD4BA470036706C /* CoolLabel.m */; };
 		A54FCB991AC3A1CF00640E66 /* DVQuizQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = A54FCB981AC3A1CF00640E66 /* DVQuizQuestion.m */; };
 		A550627B1ACB644D0061392F /* QuizOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A55062791ACB644D0061392F /* QuizOverViewController.m */; };
 		A5689BF61ABD1E3200299A4C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A5689BF51ABD1E3200299A4C /* main.m */; };
@@ -55,6 +56,8 @@
 		A54841B71ACCA93200053648 /* QandADataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QandADataBase.m; sourceTree = "<group>"; };
 		A54841B91ACCC50400053648 /* buzz.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = buzz.wav; sourceTree = "<group>"; };
 		A54841BB1ACCC87100053648 /* yay.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = yay.wav; sourceTree = "<group>"; };
+		A54CF6BB1AD4BA470036706C /* CoolLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoolLabel.h; sourceTree = "<group>"; };
+		A54CF6BC1AD4BA470036706C /* CoolLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoolLabel.m; sourceTree = "<group>"; };
 		A54FCB971AC3A1CF00640E66 /* DVQuizQuestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVQuizQuestion.h; sourceTree = "<group>"; };
 		A54FCB981AC3A1CF00640E66 /* DVQuizQuestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVQuizQuestion.m; sourceTree = "<group>"; };
 		A55062781ACB644D0061392F /* QuizOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuizOverViewController.h; sourceTree = "<group>"; };
@@ -122,10 +125,10 @@
 		A5689BF21ABD1E3200299A4C /* DVQuiz */ = {
 			isa = PBXGroup;
 			children = (
-				A517A6041AD46AC900958861 /* CoolButton.m */,
-				A517A6051AD46AC900958861 /* Common.m */,
 				A517A6061AD46AC900958861 /* Common.h */,
+				A517A6051AD46AC900958861 /* Common.m */,
 				A517A6071AD46AC900958861 /* CoolButton.h */,
+				A517A6041AD46AC900958861 /* CoolButton.m */,
 				A54841BB1ACCC87100053648 /* yay.wav */,
 				A54841B91ACCC50400053648 /* buzz.wav */,
 				A54841B41ACCA8ED00053648 /* QandA.sqlite3 */,
@@ -141,6 +144,8 @@
 				A5689BF31ABD1E3200299A4C /* Supporting Files */,
 				A54841B61ACCA93200053648 /* QandADataBase.h */,
 				A54841B71ACCA93200053648 /* QandADataBase.m */,
+				A54CF6BB1AD4BA470036706C /* CoolLabel.h */,
+				A54CF6BC1AD4BA470036706C /* CoolLabel.m */,
 			);
 			path = DVQuiz;
 			sourceTree = "<group>";
@@ -257,6 +262,7 @@
 			files = (
 				A517A6081AD46AC900958861 /* CoolButton.m in Sources */,
 				A550627B1ACB644D0061392F /* QuizOverViewController.m in Sources */,
+				A54CF6BD1AD4BA470036706C /* CoolLabel.m in Sources */,
 				A5689C1C1ABD244700299A4C /* QuizViewController.m in Sources */,
 				A5689BF91ABD1E3200299A4C /* AppDelegate.m in Sources */,
 				A517A6091AD46AC900958861 /* Common.m in Sources */,
