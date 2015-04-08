@@ -10,6 +10,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import <Firebase/Firebase.h>
 #import "CoolButton.h"
+#import "CoolLabel.h"
 
 enum subjectEnumType {geography, science, trick};
 
@@ -24,7 +25,7 @@ enum subjectEnumType {geography, science, trick};
 @property (nonatomic) int answeredTotal;
 @property (nonatomic) int maxQuestions;
 
-@property (nonatomic) UILabel *questionLabel;
+@property (nonatomic) CoolLabel *questionLabel;
 @property (nonatomic) UILabel *statusLabel;
 @property (nonatomic) UILabel *scoreLabel;
 @property (nonatomic) UILabel *timerLabel;
@@ -245,10 +246,14 @@ struct trackedQuestionStruct
 {
     [super viewDidLoad];
     if (self) {
-        _questionLabel = [self makeLabelWithText:@"Blank Question" backgroundColor:[UIColor redColor]];
-        _statusLabel = [self makeLabelWithText:@"Blank Status" backgroundColor:[UIColor orangeColor]];
-        _scoreLabel = [self makeLabelWithText:@"Blank Score" backgroundColor:[UIColor yellowColor]];
-        _timerLabel = [self makeLabelWithText:@"Blank Timer" backgroundColor:[UIColor greenColor]];
+        //_questionLabel = [self makeLabelWithText:@"Blank Question" backgroundColor:[UIColor redColor]];
+        _questionLabel = [[CoolLabel alloc] initWithColor:[UIColor redColor]];
+        //_statusLabel = [self makeLabelWithText:@"Blank Status" backgroundColor:[UIColor orangeColor]];
+        _statusLabel = [[CoolLabel alloc] initWithColor:[UIColor orangeColor]];
+        //_scoreLabel = [self makeLabelWithText:@"Blank Score" backgroundColor:[UIColor yellowColor]];
+        _scoreLabel = [[CoolLabel alloc] initWithColor:[UIColor yellowColor]];
+        //_timerLabel = [self makeLabelWithText:@"Blank Timer" backgroundColor:[UIColor greenColor]];
+        _timerLabel = [[CoolLabel alloc] initWithColor:[UIColor greenColor]];
         
         _answerAButton = [CoolButton makeCoolButtonWithHandler:self selector:@selector(answerAHandler:) text:@"Blank AnswerA" color:[UIColor yellowColor]];
         _answerBButton = [CoolButton makeCoolButtonWithHandler:self selector:@selector(answerBHandler:) text:@"Blank AnswerB" color:[UIColor greenColor]];

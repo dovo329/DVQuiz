@@ -72,20 +72,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _quizOverLabel = [[CoolLabel alloc] initWithColor:[UIColor redColor]];
+    _quizOverLabel = [[CoolLabel alloc] initWithColor:[UIColor blueColor]];
     self.quizOverLabel.textColor = [UIColor blackColor];
     self.quizOverLabel.highlightedTextColor = [UIColor blueColor];
-    //self.quizOverLabel.backgroundColor = [UIColor blueColor];
     self.quizOverLabel.textAlignment = NSTextAlignmentCenter;  //(for iOS 6.0)
     self.quizOverLabel.text = @"Quiz Over!";
     
-    _scoreLabel = [[UILabel alloc] init];
+    _scoreLabel = [[CoolLabel alloc] initWithColor:[UIColor blueColor]];
     if (self.answeredTotal > 0.0) {
         self.scoreLabel.text = [NSString stringWithFormat:@"Score is %d/%d: %.0f%%", self.answeredRight, self.answeredTotal, 100*((float)self.answeredRight/(float)self.answeredTotal)];
     } else {
         self.scoreLabel.text = [NSString stringWithFormat:@"Score is 0 and so much more text on this line to test the wrapping capabilities (but not the rapping capabilities as that would be silly)."];
     }
-    self.scoreLabel.textColor = [UIColor orangeColor];
+    self.scoreLabel.textColor = [UIColor blackColor];
     self.scoreLabel.textAlignment = NSTextAlignmentCenter;  //(for iOS 6.0)
     self.scoreLabel.backgroundColor = [UIColor clearColor];
     self.scoreLabel.lineBreakMode = NSLineBreakByWordWrapping;

@@ -15,6 +15,12 @@
     self = [super init];
     _roundedRectArcRadius = radius;
     _color = color;
+    
+    self.textColor = [UIColor blackColor];
+    self.textAlignment = NSTextAlignmentCenter;  //(for iOS 6.0)
+    self.lineBreakMode = NSLineBreakByWordWrapping;
+    self.numberOfLines = 0;
+    
     return self;
 }
 
