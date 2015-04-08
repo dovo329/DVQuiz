@@ -46,6 +46,18 @@
     return clipPath;
 }
 
+
+- (CGMutablePathRef)makeHighlightPath:(CGRect)rect radius:(CGFloat)radius
+{
+    CGMutablePathRef clipPath = CGPathCreateMutable();
+    CGPathMoveToPoint(clipPath, NULL, CGRectGetMinX(rect), CGRectGetMidY(rect));
+    CGPathAddArcToPoint(clipPath, NULL, CGRectGetMinX(rect), CGRectGetMinY(rect), CGRectGetMidX(rect), CGRectGetMinY(rect), radius);
+    CGPathAddLineToPoint(clipPath, NULL, CGRectGetMidX(rect), CGRectGetMinY(rect));
+    
+    return clipPath;
+}
+
+
 - (CGMutablePathRef)makeTopBubbleClipPath:(CGRect)rect
 {
     CGFloat radius = rect.size.width*2.0;
@@ -139,6 +151,16 @@
     CGContextDrawLinearGradient (context, bottomGradient, startPoint, endPoint, 0);
     CGGradientRelease (bottomGradient);
     CGContextRestoreGState(context);
+    
+
+    
+    /*CGContextSaveGState(context);
+    CGContextSetLineWidth(context, 4.0);
+    CGMutablePathRef highlightPath = [self makeHighlightPath:CGRectInset(rect,4.0,4.0) radius:self.roundedRectArcRadius];
+    CGContextAddPath(context, highlightPath);
+    CGContextSetRGBStrokeColor(context, 1.0, 1.0, 1.0, 0.5);
+    CGContextStrokePath(context);
+    CGContextRestoreGState(context);*/
     
     
 /*
