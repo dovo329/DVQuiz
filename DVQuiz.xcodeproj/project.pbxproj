@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		A517A6081AD46AC900958861 /* CoolButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A517A6041AD46AC900958861 /* CoolButton.m */; };
 		A517A6091AD46AC900958861 /* Common.m in Sources */ = {isa = PBXBuildFile; fileRef = A517A6051AD46AC900958861 /* Common.m */; };
+		A533AEB81AD5CB7900CE81E8 /* brick-wallpaper.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A533AEB71AD5CB7900CE81E8 /* brick-wallpaper.jpg */; };
+		A533AEBA1AD5CBE700CE81E8 /* old-board.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A533AEB91AD5CBE700CE81E8 /* old-board.jpg */; };
 		A53696281ACE097E00AB6D06 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A53696271ACE097E00AB6D06 /* libicucore.dylib */; };
 		A536962A1ACE098800AB6D06 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A53696291ACE098800AB6D06 /* libc++.dylib */; };
 		A536962C1ACE099100AB6D06 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A536962B1ACE099100AB6D06 /* CFNetwork.framework */; };
@@ -44,6 +46,8 @@
 		A517A6051AD46AC900958861 /* Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Common.m; sourceTree = "<group>"; };
 		A517A6061AD46AC900958861 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		A517A6071AD46AC900958861 /* CoolButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoolButton.h; sourceTree = "<group>"; };
+		A533AEB71AD5CB7900CE81E8 /* brick-wallpaper.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "brick-wallpaper.jpg"; sourceTree = "<group>"; };
+		A533AEB91AD5CBE700CE81E8 /* old-board.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "old-board.jpg"; sourceTree = "<group>"; };
 		A53696251ACE083A00AB6D06 /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Firebase.framework; path = DVQuiz/Firebase.framework; sourceTree = "<group>"; };
 		A53696271ACE097E00AB6D06 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		A53696291ACE098800AB6D06 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
@@ -125,6 +129,8 @@
 		A5689BF21ABD1E3200299A4C /* DVQuiz */ = {
 			isa = PBXGroup;
 			children = (
+				A533AEB91AD5CBE700CE81E8 /* old-board.jpg */,
+				A533AEB71AD5CB7900CE81E8 /* brick-wallpaper.jpg */,
 				A517A6061AD46AC900958861 /* Common.h */,
 				A517A6051AD46AC900958861 /* Common.m */,
 				A517A6071AD46AC900958861 /* CoolButton.h */,
@@ -241,6 +247,8 @@
 			files = (
 				A54841BC1ACCC87100053648 /* yay.wav in Resources */,
 				A54841B51ACCA8ED00053648 /* QandA.sqlite3 in Resources */,
+				A533AEBA1AD5CBE700CE81E8 /* old-board.jpg in Resources */,
+				A533AEB81AD5CB7900CE81E8 /* brick-wallpaper.jpg in Resources */,
 				A54841BA1ACCC50400053648 /* buzz.wav in Resources */,
 				A5689C011ABD1E3200299A4C /* Images.xcassets in Resources */,
 			);
